@@ -1,7 +1,7 @@
 # Research PR Routing Rules
 
 Use these rules to classify reviewable changes to recurring research and Codex
-workflows. Explicit task intent outranks the current directory name.
+workflows.
 
 ## Scope gate
 
@@ -13,9 +13,30 @@ in its execution workflow.
 If that work changes a reusable script, skill, rule, template, agent, or
 configuration, classify the changed object here.
 
-## Project and scenario routes
+## Generic PR class taxonomy
 
-| Project key | Typical artifacts or scenarios | Primary PR class | Primary execution route |
+The PR class is determined by the authoritative object being changed. This
+classification is reusable across projects and should remain stable even when
+personal project names change.
+
+| PR class | Authoritative object |
+| --- | --- |
+| `PR-RSCH` | manuscript, chapter, academic argument, or research-writing method |
+| `PR-LIT` | literature library, evidence table, search method, citation mapping, or attachment workflow |
+| `PR-DATA` | data-processing script, calculation, statistical logic, calibration, or analysis table |
+| `PR-FIG` | figure source, visual semantics, layout, annotation, or publication export workflow |
+| `PR-ORG` | Origin-native workbook, graph, editable `.opju`, or Origin refinement workflow |
+| `PR-DOC` | Word/PDF structure, rendering, tracked changes, comments, pagination, or document workflow |
+| `PR-OPS` | Codex skill, agent, MCP/plugin rule, router, template, configuration, or operating workflow |
+| `PR-MIX` | one atomic change spanning multiple authoritative objects that cannot be separated without making the change unusable |
+
+## Personal project routing profile
+
+The following project keys are personal routing aliases for recurring work. They
+suggest a likely execution route and default PR class, but they do **not** define
+the generic taxonomy and must not override the authoritative changed object.
+
+| Project key | Typical artifacts or scenarios | Default PR class | Primary execution route |
 | --- | --- | --- | --- |
 | `POLYU` | Bath-RP, MOB-EET, confirmation report, thesis chapters, mechanism or evidence synthesis | `PR-RSCH` | Research or writing specialist |
 | `ELC` | CARS outline, academic paragraph, local rubric, cohesion or tone workflow | `PR-RSCH` | Outline or paragraph revision specialist |
@@ -25,6 +46,21 @@ configuration, classify the changed object here.
 | `ORIGIN` | Native workbook/graph, editable `.opju`, preview, legend/axis/color refinement | `PR-ORG` | Origin refinement specialist |
 | `DOCS` | DOCX, PDF, rendering, redlining, comments, tracked changes, document structure | `PR-DOC` | Native document or PDF specialist |
 | `CODEX` | Skills, agents, MCP/plugin rules, routing, token optimization, installation or synchronization | `PR-OPS` | Skill maintainer or routing auditor |
+
+Use `GENERAL` when no personal project key is needed.
+
+## Routing precedence
+
+When signals disagree, apply this precedence:
+
+1. Explicit user intent defines the requested scope and deliverable.
+2. The authoritative changed object determines the primary PR class.
+3. A personal project key suggests the default specialist or workflow only.
+4. Directory name or current working location is a weak fallback signal.
+
+Example: a `POLYU` task that changes a reusable statistical calculation script is
+`PR-DATA`, not `PR-RSCH`, because the changed authoritative object is the data
+analysis logic.
 
 ## Class selection
 
@@ -48,8 +84,13 @@ Choose one primary class. Add a secondary checklist only for a genuine
 cross-boundary dependency.
 
 Use `PR-MIX` only when one atomic change affects multiple authoritative objects
-and separating them would make either part unusable. Split changes when they
-have different owners, validation methods, rollback paths, or release timing.
+and separating them would make either part unusable. A `PR-MIX` package must
+name every authoritative object involved, explain why splitting is not viable,
+and apply the validation gates for every constituent class. It must not be used
+to bypass a class-specific validation requirement.
+
+Split changes when they have different owners, validation methods, rollback
+paths, or release timing.
 
 Common split candidates include:
 
@@ -63,7 +104,7 @@ Common split candidates include:
 Retain this card before loading detailed checklists:
 
 ```text
-Project key:
+Project key or GENERAL:
 Scenario:
 Primary PR class:
 Secondary checklist, if required:
