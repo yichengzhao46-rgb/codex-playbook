@@ -5,12 +5,17 @@ Remove sections and checklist rows that do not apply.
 ```markdown
 ## Summary
 
-- Project key: `<POLYU|ELC|ZOTERO|DATA|FIG|ORIGIN|DOCS|CODEX>`
+- Project key: `<GENERAL|POLYU|ELC|ZOTERO|DATA|FIG|ORIGIN|DOCS|CODEX>`
 - Primary PR class: `<PR-RSCH|PR-LIT|PR-DATA|PR-FIG|PR-ORG|PR-DOC|PR-OPS|PR-MIX>`
+- Constituent classes, if `PR-MIX`:
 - Scenario:
 - Change:
 
 ## Rationale
+
+-
+
+## Authoritative object(s)
 
 -
 
@@ -32,6 +37,7 @@ Remove sections and checklist rows that do not apply.
 - [ ] Zotero storage/index QA:
 - [ ] Word/PDF structural QA:
 - [ ] Regression or smoke test:
+- [ ] If `PR-MIX`, all constituent validation gates applied:
 
 ## Evidence boundaries
 
@@ -44,6 +50,7 @@ Remove sections and checklist rows that do not apply.
 
 - Risk:
 - Rollback:
+- If `PR-MIX`, why splitting is not viable:
 
 ## Follow-up
 
