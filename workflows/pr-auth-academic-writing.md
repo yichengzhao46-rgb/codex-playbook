@@ -61,8 +61,57 @@ Classify material claims as one of:
 - unresolved, speculative, or not checked.
 
 Check that verbs and certainty match the evidence category. In particular, do
-not replace cautious interpretations with causal or species-specific claims
-unless the corresponding direct test exists.
+not replace cautious interpretations with causal or species-specific claims unless
+the corresponding direct test exists.
+
+### Quantitative consistency and false-conflict prevention
+
+Before flagging two numerical statements as contradictory, establish that they
+refer to the same quantitative object on the same basis. Check, where applicable:
+
+- analyte or response variable;
+- sample, treatment, replicate set, and time point;
+- direct measurement versus transformed or derived quantity;
+- numerator, denominator, sample mass, total-carbon basis, biomass basis, protein
+  normalization, volume basis, or other sample-specific normalizer;
+- background subtraction, blank correction, baseline correction, or natural-
+  abundance correction;
+- unit conversion, percentage versus fraction, logarithmic or isotopic notation,
+  and rounding;
+- whether two values are alternative mathematical representations of the same
+  measurement rather than independent measurements.
+
+Do not infer a data conflict merely because values differ numerically across
+representations or derived metrics. Reconstruct the stated conversion or formula
+first when the document provides enough information. If the required source data,
+normalizer, or formula is unavailable, classify the item as **unresolved / needs
+verification**, not as a confirmed contradiction.
+
+For derived absolute quantities, inspect all quantity-dependent terms before
+comparing magnitudes. A small difference in a concentration, fraction, enrichment,
+or atom percentage can produce a non-zero absolute amount when multiplied by a
+sample-specific mass or total content. Conversely, similar relative values can
+produce different absolute amounts when sample totals differ.
+
+Isotope example: `δ13C`, `atom% 13C`, and background-corrected absolute `13C
+excess` are related but not interchangeable reporting layers. `δ13C` and `atom%
+13C` can represent the same isotopic composition in different notation, whereas
+absolute `13C excess` additionally depends on the amount of carbon in the analyzed
+sample and the selected background correction. Do not classify these as mutually
+inconsistent until the conversion, sample identity, total-carbon basis, and
+background are aligned.
+
+Use severity labels conservatively:
+
+- **confirmed conflict** only when values remain incompatible after matching the
+  same sample, basis, transformation, units, and calculation definition;
+- **apparent discrepancy** when the mismatch may be explained by a different
+  representation, denominator, normalization, or derived calculation;
+- **needs source-data verification** when the manuscript alone cannot resolve the
+  relationship.
+
+If reconstruction requires raw data or deterministic recalculation, route the
+item to the `PR-DATA` validation gate before escalating its scientific severity.
 
 For Bath-RP / MOB-EET work, preserve the existing `PR-RSCH` constraints: do not
 infer RP-specific carbon fixation from bulk community isotope incorporation, do
@@ -201,6 +250,10 @@ For changed high-risk paragraphs, provide:
 - the revised wording;
 - a short meaning-diff note.
 
+For quantitative issues, distinguish explicitly among **confirmed conflict**,
+**apparent discrepancy**, and **needs source-data verification**; do not collapse
+all three into a high-severity inconsistency label.
+
 ## Completion criteria
 
 - Scientific validity takes precedence over detector-related goals.
@@ -210,5 +263,7 @@ For changed high-risk paragraphs, provide:
 - Revised prose is more specific to the actual study rather than merely more
   lexically varied.
 - Every substantive wording change passes the meaning-diff validation.
+- Quantitative conflict labels have passed the same-basis and derived-metric
+  checks before severity is assigned.
 - External AI-detector results, if supplied, are treated only as locations for
   additional review rather than as definitive evidence.
