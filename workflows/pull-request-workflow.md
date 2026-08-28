@@ -2,6 +2,11 @@
 
 Use this workflow for meaningful Codex-generated changes.
 
+For research methods, literature systems, data pipelines, figures, Origin,
+documents, or Codex workflow maintenance, use the classified
+[Research PR Workflow](research-pr-workflow.md) after applying the
+[Research PR Routing Rules](../rules/research-pr-routing.md).
+
 ## Default flow
 
 1. Read repository instructions and relevant context.
