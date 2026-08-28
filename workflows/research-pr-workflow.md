@@ -55,6 +55,11 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 - For Bath-RP/MOB-EET work, do not overstate Bath EEU, partner DIET,
   species-specific flux, or causal donor transfer without direct tests.
 - For ELC work, check the local prompt, rubric, handout, and sample conventions.
+- When authorship, academic style, or AI-writing risk is in scope, apply the
+  [PR-AUTH Academic Authorship and AI-Writing Risk Workflow](pr-auth-academic-writing.md)
+  as a specialist checklist under `PR-RSCH`; do not create a separate PR class.
+- In PR-AUTH work, scientific validity and evidence boundaries take precedence
+  over institutional style, author-specific voice, and detector-related goals.
 
 ### `PR-DATA`: data processing and statistics
 
