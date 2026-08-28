@@ -8,7 +8,7 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 
 1. Start from actual changed files or an explicit proposed change set.
 2. Apply the [Research PR Routing Rules](../rules/research-pr-routing.md).
-3. Select one project key and one primary PR class.
+3. Select one project key (or `GENERAL`) and one primary PR class.
 4. Complete specialist execution before returning here for PR packaging.
 5. Create a Draft PR by default and leave merge approval to a human.
 
@@ -86,6 +86,18 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 - Render Word deliverables to PDF or PNG for visual inspection when possible;
   state clearly when render QA is blocked.
 
+### `PR-MIX`: inseparable multi-object changes
+
+Use `PR-MIX` only when one atomic change spans multiple authoritative objects and
+splitting the change would make one or more parts unusable.
+
+- Name every authoritative object and every constituent PR class.
+- Explain why the change cannot be split into independent PRs.
+- Apply the union of all validation gates required by the constituent classes.
+- Record validation results separately by class or object.
+- Document shared and class-specific rollback implications.
+- Do not use `PR-MIX` to bypass a failed or inconvenient class-specific check.
+
 ## Evidence boundaries
 
 For research-supporting changes, keep these categories separate in the PR:
@@ -97,8 +109,9 @@ For research-supporting changes, keep these categories separate in the PR:
 
 ## Completion criteria
 
-- The project key and primary PR class are stated.
+- The project key (or `GENERAL`) and primary PR class are stated.
 - The authoritative source and validation level are explicit.
+- For `PR-MIX`, constituent classes and the reason splitting is not viable are stated.
 - The final diff contains no unrelated changes or secrets.
 - Known limitations and rollback are documented.
 - The Draft PR is open and not merged automatically.
