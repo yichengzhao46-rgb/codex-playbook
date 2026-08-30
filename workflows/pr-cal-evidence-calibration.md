@@ -24,29 +24,54 @@ Choose wording inside this corridor. Prefer the strongest wording that remains w
 
 Do not treat caution itself as evidence of rigor.
 
-## Target-journal empirical calibration gate
+## Global empirical mechanism envelope
 
-When the target journal or journal family is known, calibrate the claim corridor against **published experimental papers with comparable evidence architecture** before assigning claim-strength severity to a central conclusion.
+Use the maintained experimental-paper corpus as the external calibration boundary for mechanism claims.
 
-The model's generic caution level is not the authority. The practical bar is the mainstream evidence-to-language envelope accepted by the target journal for comparable work.
+The model's generic caution level is not the authority. A mechanism interpretation should **not** be rejected merely because an exact same-system, same-journal, or nearest-neighbour precedent is absent, provided that the mechanism layer and wording remain within the empirical range represented across the active corpus and the manuscript's own evidence supports that position.
 
-### Journal benchmark procedure
+### Two-stage calibration
+
+Separate two questions:
+
+1. **Global external boundary — what kinds and strengths of mechanism claims are empirically represented in the corpus?**
+2. **Local evidential position — where inside that global boundary does the manuscript's own evidence place the claim?**
+
+The full active corpus defines the outer empirical mechanism envelope. Local evidence determines the claim's defensible position inside it.
+
+Do not require a disputed mechanism claim to reproduce the exact evidence architecture of a small subset of papers before it can fall within the published mechanism envelope.
+
+### Global corpus procedure
 
 For central or disputed claims:
 
-1. identify the target journal or nearest journal family;
-2. retrieve at least **3 relevant experimental papers** when practical, preferably **5 or more** for a major mechanistic claim;
-3. prioritize papers similar in scientific question, experimental design, evidence architecture, and mechanism depth rather than papers that merely use the same statistical test;
-4. record which evidence types were available, such as defined coculture, controls, isotope tracing, perturbation, genetics, electrochemistry, metabolite measurements, omics, microscopy, time course, or functional incapacity controls;
-5. record the actual claim verbs and scope used by the authors, distinguishing phenomenon-level, system-level mechanism, route identity, species attribution, and exact flux;
-6. infer the **mainstream accepted claim-strength envelope** across the cohort rather than copying the boldest paper;
-7. compare the manuscript claim against that empirical envelope.
+1. identify the claim layer: observed phenomenon, system-level function, mechanism, route identity, species attribution, or exact flux/causal step;
+2. identify whether that mechanism layer and comparable wording strength occur anywhere within the active experimental corpus;
+3. inspect the range of evidence packages associated with that layer across the corpus, including defined coculture, controls, isotope tracing, perturbation, genetics, electrochemistry, metabolite measurements, omics, microscopy, time course, incapacity controls, or other functional evidence;
+4. determine whether the manuscript's own evidence is sufficient to place the claim somewhere within that published range;
+5. retain narrower unresolved boundaries explicitly when the manuscript does not resolve species attribution, exact carrier, route identity, flux, or causality;
+6. flag overclaim only when the claim exceeds both the manuscript's local evidential support and the global empirical mechanism envelope, or when it imports a narrower attribution that the data do not support;
+7. flag underclaim when the manuscript is forced materially below a mechanism layer that is supported by its own convergent evidence and falls within the global empirical envelope.
 
-Use target-journal papers as calibration evidence, not as permission to reproduce unsupported wording. A published overclaim is not automatically a valid precedent.
+Exact target-journal matches and close analogues may be consulted as contextual examples, but they are **not hard prerequisites** for a mechanism claim to be considered within the acceptable empirical range.
 
-### Maintained empirical corpus requirement
+### Corpus membership is not automatic permission
 
-Maintain a reusable target-journal benchmark corpus with at least **50 active, relevant experimental studies**. Prefer a baseline of **60 or more** so that removal of weak, outdated, or poorly matched samples does not collapse coverage.
+A paper in the corpus with unusually strong evidence does not automatically license the same wording for weaker local evidence.
+
+For example:
+
+- a genetic knockout plus isotope tracing may justify `demonstrates` for a specific causal step;
+- the existence of that published `demonstrates` statement shows that this mechanism layer lies inside the global corpus envelope;
+- a manuscript lacking the isolating intervention may still need `supports`, `indicates`, or `is consistent with` for that same layer.
+
+Thus, **global corpus membership defines the outer boundary; local evidence calibrates the exact verb and specificity inside that boundary**.
+
+Do not use one published overclaim as automatic permission to overstate weak local evidence, but also do not let the absence of an exact precedent create an artificially narrow bar.
+
+## Maintained empirical corpus requirement
+
+Maintain a reusable benchmark corpus with at least **50 active, relevant experimental studies**. Prefer a baseline of **60 or more** so that removal of weak, outdated, or poorly matched samples does not collapse coverage.
 
 The corpus should be diversified across the main journal families used for the research program rather than dominated by one venue. For the current environmental microbiology/engineering profile, maintain substantial coverage from:
 
@@ -65,23 +90,21 @@ Each active corpus entry should record, at minimum:
 - narrower limitation or unresolved layer retained by the authors; and
 - why the sample is transferable to PR-CAL calibration.
 
-For a disputed central mechanism claim, do not average the entire corpus. Retrieve the closest empirical neighbours. When practical, use at least **5 close analogues**, including at least **3 papers from the exact target journal** when suitable samples exist.
+The corpus is interpreted as a **global published mechanism envelope**, not by majority vote and not by mandatory nearest-neighbour matching.
 
-Corpus membership is evidence for calibration, not authority by majority vote. Remove or down-weight samples that are review articles, commentary, weak topic matches, obvious outlier claims, or papers whose evidence architecture is materially different from the manuscript under review.
+Remove or down-weight samples that are review articles, commentary, obvious outlier claims unsupported by their own reported evidence, or papers that do not provide an interpretable evidence-to-claim relationship.
 
-### Journal-family interpretation
+## Journal-family interpretation
 
-For environmental microbiology and engineering, use relevant papers from journals such as **The ISME Journal, Environmental Science & Technology, Water Research**, and appropriate Nature-family comparators when they match the evidence architecture.
+Journal-specific examples may help with rhetoric, convention, or expected terminology, but they do not define a narrower mechanism ceiling than the full active corpus unless the user explicitly requests a journal-specific constraint.
 
-Common empirical patterns include:
+Across environmental microbiology and engineering journals, common empirical patterns include:
 
 - process + orthogonal molecular/physiological evidence can justify `supports`, `indicates`, `promotes`, or `facilitates` when the mechanism remains properly bounded;
 - a system-level process may be `demonstrated` even when the exact interspecies route is only `suggested` or `supported`;
 - strong perturbations such as knockout, incapacity controls, selective inhibition/rescue, physical separation, isotope tracing, or route-specific interventions can move a claim toward `shows`, `demonstrates`, or direct causal language for the layer they actually isolate;
 - missing species-resolved or flux-resolved evidence usually limits the **species/flux-specific layer**, not necessarily the broader system-level interpretation;
 - omics alone rarely establishes mechanism, but omics combined with functional/process evidence can materially strengthen a bounded mechanism claim.
-
-When the manuscript's wording is materially weaker than comparable published papers with a similar or stronger evidence package, flag **underclaim risk**. When it is materially stronger, flag **overclaim risk**.
 
 ## No single-assay veto
 
@@ -103,8 +126,9 @@ For each important claim, build a compact evidence card:
 
 ```text
 Claim:
-Target journal / journal family:
-Comparable published evidence packages:
+Claim layer:
+Global corpus mechanism range:
+Relevant corpus precedents/examples:
 Direct evidence:
 Perturbation / intervention evidence:
 Temporal or dose-response evidence:
@@ -113,7 +137,7 @@ Relevant controls:
 Alternative explanations tested or weakened:
 Evidence dependencies / shared measurement basis:
 Important missing evidence:
-Published wording envelope:
+Local position inside global envelope:
 Strongest defensible claim:
 Claims that remain too strong:
 ```
@@ -122,7 +146,7 @@ Do not count evidence lines by number alone. Weight their independence, relevanc
 
 ## Evidence tiers
 
-Use the following working tiers for claim calibration. These tiers are defaults and should be adjusted within the target-journal empirical envelope when a benchmark is available.
+Use the following working tiers for local placement inside the global empirical mechanism envelope.
 
 ### Tier 1 — Directly demonstrated
 
@@ -147,7 +171,7 @@ Appropriate language may include:
 - `is consistent with a model in which`;
 - `collectively indicates`;
 - `supports the interpretation that`;
-- `promotes` or `facilitates` when a target-journal benchmark shows that the functional evidence package supports that level.
+- `promotes` or `facilitates` when the functional evidence supports that level within the global empirical envelope.
 
 Do **not** automatically downgrade Tier 2 to `speculative`, `unsupported`, or `cannot conclude` merely because Tier 1 evidence is absent.
 
@@ -228,30 +252,30 @@ Do not assign high-severity labels merely because evidence is indirect or becaus
 
 Use:
 
-- **P0 / critical** — factual/data contradiction, invalid calculation, unsupported central claim, materially false species/causal attribution, or conclusion incompatible with the evidence and target-journal evidence envelope;
-- **P1 / major** — claim materially exceeds or understates the defensible evidence corridor, important alternative explanation ignored, or a central inference needs substantial recalibration;
+- **P0 / critical** — factual/data contradiction, invalid calculation, central claim outside both the local evidence boundary and the global empirical mechanism envelope, materially false species/causal attribution, or conclusion incompatible with the evidence;
+- **P1 / major** — claim materially exceeds or understates the defensible local position inside the global corpus envelope, important alternative explanation ignored, or a central inference needs substantial recalibration;
 - **P2 / moderate** — wording strength, local evidence linkage, or uncertainty framing can be improved without changing the main scientific interpretation;
 - **P3 / minor** — stylistic precision or optional strengthening/softening.
 
 A claim that is supported by convergent evidence but lacks a single direct assay should not be labeled P0 solely for that reason.
 
-If comparable target-journal papers routinely use stronger bounded wording for a similar evidence architecture, a weaker manuscript statement may itself warrant a P1/P2 **underclaim** finding.
+If the global corpus contains established mechanism claims at the relevant layer and the manuscript's evidence supports a bounded version of that layer, forcing the manuscript to remain purely agnostic may itself warrant a P1/P2 **underclaim** finding.
 
 ## Bath–RP / environmental microbiology examples
 
-Apply the existing `PR-RSCH` evidence boundaries, but calibrate them symmetrically and against relevant target-journal precedent when available.
+Apply the existing `PR-RSCH` evidence boundaries, but calibrate them symmetrically inside the global empirical mechanism envelope.
 
 Examples:
 
 - Bulk community EA-IRMS does not establish RP-specific inorganic-carbon incorporation. However, it can directly support **community-level inorganic carbon incorporation**, and in combination with RP physiology, perturbation, and other orthogonal evidence may support a bounded interpretation about partner-associated metabolic coupling.
 - Metabolite depletion alone does not establish a Bath-to-RP flux. However, production/consumption patterns, RP substrate-use controls, donor perturbation, and temporal coupling may collectively support **diffusible metabolite exchange as a mechanism-consistent interpretation** without naming one carrier as uniquely causal.
-- A GAC-associated enhancement alone does not demonstrate DIET. A stronger DIET claim requires conductive-interface and alternative-pathway evidence; nevertheless, multiple conductive-material and perturbation results may justify `consistent with potential GAC-facilitated electron coupling` or stronger wording if the complete evidence package matches accepted target-journal precedent.
+- A GAC-associated enhancement alone does not demonstrate DIET. A stronger DIET claim requires conductive-interface and alternative-pathway evidence; nevertheless, multiple conductive-material and perturbation results may justify `consistent with potential GAC-facilitated electron coupling` or stronger wording when the local evidence places the claim within a mechanism layer already represented by the global corpus.
 
 ## Review output
 
 For central claims, report both overclaim and underclaim risk:
 
-| Claim | Target-journal benchmark | Evidence tier | Convergent evidence | Main unresolved boundary | Overclaim risk | Underclaim risk | Recommended wording strength |
+| Claim | Global corpus mechanism range | Local evidence tier | Convergent evidence | Main unresolved boundary | Overclaim risk | Underclaim risk | Recommended wording strength |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 
 When criticizing a claim, provide the strongest acceptable replacement rather than only saying what cannot be claimed.
@@ -272,13 +296,14 @@ A research review passes `PR-CAL` when:
 
 - both overclaim and underclaim risks were considered;
 - important conclusions were evaluated using the full evidence set rather than one assay in isolation;
-- central disputed claims were benchmarked against comparable target-journal papers when the target journal was known and such papers were available;
 - the maintained empirical corpus contains at least 50 active, relevant experimental studies, with 60+ preferred for robust coverage;
-- the benchmark used close empirical neighbours rather than averaging the full corpus or relying on one bold outlier;
-- for major disputed mechanism claims, at least 5 close analogues were used when practical, including at least 3 from the exact target journal when suitable samples existed;
+- the **full active corpus** was treated as the outer empirical mechanism boundary rather than imposing a narrower mandatory same-journal or nearest-neighbour boundary;
+- exact target-journal or close-analogue papers were used only as contextual aids unless the user explicitly requested a journal-specific constraint;
+- local evidence was still used to determine the exact verb, specificity, attribution, and causal strength inside that global boundary;
+- corpus membership was not treated as automatic permission to borrow stronger wording than the manuscript's own evidence supports;
 - apparent multiple evidence lines were checked for dependence;
 - material alternative explanations were identified proportionately;
 - limitations define the claim boundary without unnecessarily erasing supported conclusions;
-- central claims use the strongest defensible wording within both the evidence corridor and the target-journal empirical envelope;
+- central claims use the strongest defensible wording within the manuscript's local evidential position and the global empirical mechanism envelope;
 - severe unsupported-claim labels are not assigned solely because one ideal direct assay is missing;
 - each major criticism includes a scientifically supportable positive replacement where possible.
