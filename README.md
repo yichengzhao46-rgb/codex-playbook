@@ -24,7 +24,7 @@ For operational use:
 
 ## Research analysis skills
 
-- [`skills/literature-guided-analysis/SKILL.md`](skills/literature-guided-analysis/SKILL.md) — recommendation-first workflow that uses published literature to interpret user data patterns, generate 3–5 candidate analysis directions, and produce a detailed plan after user selection.
+- [`skills/literature-guided-analysis/SKILL.md`](skills/literature-guided-analysis/SKILL.md) — **stable / forward-validated once** recommendation-first workflow that uses published literature to interpret user data patterns, generate 3–5 candidate analysis directions, distinguish current-data analysis from new evidence generation, and produce a detailed plan after user selection.
 
 ## Repository structure
 
