@@ -4,11 +4,11 @@ A personal methods library for using Codex consistently, safely, and reproducibl
 
 ## Purpose
 
-This repository defines **how Codex should work**. It stores reusable instructions, prompts, operating rules, review patterns, workflow templates, MCP practices, and lessons learned. It is not intended to hold project-specific experimental data or production outputs.
+This repository defines **how Codex should work**. It stores reusable instructions, prompts, operating rules, review patterns, workflow templates, MCP practices, skills, and lessons learned. It is not intended to hold project-specific experimental data or production outputs.
 
 ## Relationship to codex-workbench
 
-- **codex-playbook** = methods, rules, prompts, templates, and standards.
+- **codex-playbook** = methods, rules, prompts, templates, skills, and standards.
 - **codex-workbench** = execution, experiments, prototypes, integrations, and validation.
 
 Methods should be developed and refined here, then applied and tested in `codex-workbench` or other project repositories.
@@ -22,6 +22,10 @@ For operational use:
 - [`workflows/task-routing-workflow.md`](workflows/task-routing-workflow.md) — minimum intake and execution procedure for choosing ChatGPT, Codex, or Mixed.
 - [`templates/task-envelope.md`](templates/task-envelope.md) — bounded handoff template for Mixed workflows.
 
+## Research analysis skills
+
+- [`skills/literature-guided-analysis/SKILL.md`](skills/literature-guided-analysis/SKILL.md) — **stable / forward-validated once** recommendation-first workflow that uses published literature to interpret user data patterns, generate 3–5 candidate analysis directions, distinguish current-data analysis from new evidence generation, and produce a detailed plan after user selection.
+
 ## Repository structure
 
 ```text
@@ -32,6 +36,7 @@ codex-playbook/
 ├── workflows/
 ├── rules/
 ├── templates/
+├── skills/
 ├── mcp/
 ├── agents/
 ├── examples/
