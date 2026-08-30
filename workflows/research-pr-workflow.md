@@ -11,7 +11,8 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 3. Select one project key (or `GENERAL`) and one primary PR class.
 4. Complete specialist execution before returning here for PR packaging.
 5. For reusable `PR-OPS` design or material restructuring, first apply the [External Workflow Benchmark and Local Adaptation](external-workflow-benchmark.md) workflow unless its non-trigger conditions apply.
-6. Create a Draft PR by default and leave merge approval to a human.
+6. For every substantive academic-prose revision, automatically apply the [PR-AUTH Academic Authorship and AI-Writing Risk Workflow](pr-auth-academic-writing.md), including its original-safe editing gate, even when the user did not separately ask for an AI-writing/style check.
+7. Create a Draft PR by default and leave merge approval to a human.
 
 ## Procedure
 
@@ -59,11 +60,10 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 - For Bath-RP/MOB-EET work, do not overstate Bath EEU, partner DIET,
   species-specific flux, or causal donor transfer without direct tests.
 - For ELC work, check the local prompt, rubric, handout, and sample conventions.
-- When authorship, academic style, or AI-writing risk is in scope, apply the
-  [PR-AUTH Academic Authorship and AI-Writing Risk Workflow](pr-auth-academic-writing.md)
-  as a specialist checklist under `PR-RSCH`; do not create a separate PR class.
-- In PR-AUTH work, scientific validity and evidence boundaries take precedence
-  over institutional style, author-specific voice, and detector-related goals.
+- **Automatically apply** the [PR-AUTH Academic Authorship and AI-Writing Risk Workflow](pr-auth-academic-writing.md) for every substantive revision of academic prose; do not require a separate user request and do not create a separate PR class.
+- PR-AUTH automatically checks academic-writing quality and qualitative AI-writing/formulaic-risk after the scientific content is locked.
+- In PR-AUTH work, scientific validity and evidence boundaries take precedence over institutional style, author-specific voice, and detector-related goals.
+- For file-producing academic edits, keep the original recoverable: prefer an untouched original plus a versioned revised output, or use a dedicated version-controlled branch. Do not overwrite the only recoverable copy.
 
 ### `PR-DATA`: data processing and statistics
 
@@ -94,6 +94,7 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 - Check comments or tracked-change structure when relevant.
 - Render Word deliverables to PDF or PNG for visual inspection when possible;
   state clearly when render QA is blocked.
+- For substantive academic text edits, preserve the source document and create a versioned revised copy by default; in-place overwrite is allowed only when a verified backup/recovery path exists and the task genuinely requires it.
 
 ### `PR-MIX`: inseparable multi-object changes
 
@@ -120,6 +121,7 @@ For research-supporting changes, keep these categories separate in the PR:
 
 - The project key (or `GENERAL`) and primary PR class are stated.
 - The authoritative source and validation level are explicit.
+- For substantive academic-prose changes, PR-AUTH has been run automatically and the original-safe editing status is recorded.
 - For `PR-MIX`, constituent classes and the reason splitting is not viable are stated.
 - For benchmark-triggered `PR-OPS` work, external patterns and local adaptation decisions are documented at the level needed to justify the design without turning the stable workflow into a literature review.
 - The final diff contains no unrelated changes or secrets.
