@@ -22,7 +22,7 @@ Do not store project-specific raw data, manuscript datasets, generated scientifi
 1. Inspect existing repository context before editing.
 2. For every non-trivial in-scope task, automatically apply [`workflows/pr-auto-routing-workflow.md`](workflows/pr-auto-routing-workflow.md) before execution. Infer the primary PR validation profile and any specialist checklist from the task itself; do not require the user to name a PR class.
 3. For `PR-RSCH` tasks that evaluate, rewrite, strengthen, weaken, or adjudicate scientific claims or mechanism interpretations, automatically apply [`workflows/pr-cal-evidence-calibration.md`](workflows/pr-cal-evidence-calibration.md). Evaluate both overclaim and underclaim risk and prefer the strongest defensible claim rather than the most cautious possible wording.
-4. Select ChatGPT, Codex, or Mixed execution independently from the PR validation profile using the task-routing policy. A task-level `PR-*` profile does not by itself require creation of a GitHub Pull Request.
+4. Select ChatGPT, Codex, or Mixed execution independently from the PR validation profile using the task-routing policy. For every non-trivial task, automatically create and maintain the lightweight [`workflows/execution-route-audit.md`](workflows/execution-route-audit.md) Route Receipt so the initial route, reroutes, final route, and completion evidence are traceable. Do not create GitHub state solely to log a chat-only task.
 5. For non-trivial changes, make a short implementation plan before modifying files.
 6. Keep each change focused on one logical objective.
 7. Prefer a dedicated branch for meaningful changes.
@@ -54,6 +54,8 @@ Every meaningful PR should state:
 - whether the change is stable or experimental
 
 For reusable operating-method changes that trigger external benchmarking, the PR should also summarize the external patterns reviewed, what was adopted/adapted/rejected, the local user-experience signal that justified the change, and the validation boundary.
+
+For repository-backed non-trivial work, preserve the final Route Receipt in the PR body/comment or an existing validation record when practical. The receipt should remain compact and must not become a duplicate task narrative.
 
 ## Safety and reversibility
 
