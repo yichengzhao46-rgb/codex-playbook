@@ -1,14 +1,30 @@
 # Academic AI-Writing Integrity Rule
 
-Use this rule with the existing `PR-AUTH` workflow under `PR-RSCH` when AI-assisted, AI-edited, or detector-flagged academic writing is being reviewed.
+Use this rule with the existing `PR-AUTH` workflow under `PR-RSCH` when AI-assisted, AI-edited, detector-flagged, or substantively revised academic writing is being reviewed.
 
-This rule governs **integrity and authorial control**, not detector evasion. The detailed review procedure remains in [`../workflows/pr-auth-academic-writing.md`](../workflows/pr-auth-academic-writing.md).
+This rule governs **integrity, authorial control, and reversible editing**, not detector evasion. The detailed review procedure remains in [`../workflows/pr-auth-academic-writing.md`](../workflows/pr-auth-academic-writing.md).
 
 ## Core principle
 
-Scientific validity, evidence boundaries, disciplinary writing quality, and human-author control take precedence over any AI-detector score or stylistic attempt to appear human-written.
+Scientific validity, evidence boundaries, disciplinary writing quality, human-author control, and recoverability of the original take precedence over any AI-detector score or stylistic attempt to appear human-written.
 
 Do not rewrite text solely to reduce an AI-detector score, hide AI assistance, or imitate arbitrary human-writing irregularities.
+
+## Original-safe editing gate
+
+For substantive manuscript or academic-document edits, do not overwrite the only recoverable original.
+
+Use the first practical option below:
+
+1. keep the original untouched and create a clearly versioned revised copy;
+2. for repository text, edit on a dedicated version-controlled branch so the pre-edit version remains recoverable;
+3. if in-place editing is genuinely required, verify a backup before overwrite.
+
+For Word/PDF deliverables, prefer `original + revised copy` over silent in-place replacement. If tracked changes are used, the original should still remain separately recoverable.
+
+If no reliable recovery path exists, stop before destructive overwrite and report the constraint.
+
+Record the recovery path when producing a revised file or meaningful repository change.
 
 ## Detector interpretation
 
@@ -88,4 +104,5 @@ A review passes this integrity rule only when:
 - revisions have an academic or scientific rationale independent of detector evasion;
 - substantive meaning has been preserved or explicitly re-reviewed under `PR-RSCH`;
 - AI-assistance provenance is recorded when materially relevant and knowable;
-- a human author has verified substantive claims before final acceptance of materially AI-assisted prose.
+- a human author has verified substantive claims before final acceptance of materially AI-assisted prose;
+- the original remains recoverable through an untouched original, versioned revised copy, verified backup, or version-control history.
