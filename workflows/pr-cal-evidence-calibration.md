@@ -24,6 +24,40 @@ Choose wording inside this corridor. Prefer the strongest wording that remains w
 
 Do not treat caution itself as evidence of rigor.
 
+## Target-journal empirical calibration gate
+
+When the target journal or journal family is known, calibrate the claim corridor against **published experimental papers with comparable evidence architecture** before assigning claim-strength severity to a central conclusion.
+
+The model's generic caution level is not the authority. The practical bar is the mainstream evidence-to-language envelope accepted by the target journal for comparable work.
+
+### Journal benchmark procedure
+
+For central or disputed claims:
+
+1. identify the target journal or nearest journal family;
+2. retrieve at least **3 relevant experimental papers** when practical, preferably **5 or more** for a major mechanistic claim;
+3. prioritize papers similar in scientific question, experimental design, evidence architecture, and mechanism depth rather than papers that merely use the same statistical test;
+4. record which evidence types were available, such as defined coculture, controls, isotope tracing, perturbation, genetics, electrochemistry, metabolite measurements, omics, microscopy, time course, or functional incapacity controls;
+5. record the actual claim verbs and scope used by the authors, distinguishing phenomenon-level, system-level mechanism, route identity, species attribution, and exact flux;
+6. infer the **mainstream accepted claim-strength envelope** across the cohort rather than copying the boldest paper;
+7. compare the manuscript claim against that empirical envelope.
+
+Use target-journal papers as calibration evidence, not as permission to reproduce unsupported wording. A published overclaim is not automatically a valid precedent.
+
+### Journal-family interpretation
+
+For environmental microbiology and engineering, use relevant papers from journals such as **The ISME Journal, Environmental Science & Technology, Water Research**, and appropriate Nature-family comparators when they match the evidence architecture.
+
+Common empirical patterns include:
+
+- process + orthogonal molecular/physiological evidence can justify `supports`, `indicates`, `promotes`, or `facilitates` when the mechanism remains properly bounded;
+- a system-level process may be `demonstrated` even when the exact interspecies route is only `suggested` or `supported`;
+- strong perturbations such as knockout, incapacity controls, selective inhibition/rescue, physical separation, isotope tracing, or route-specific interventions can move a claim toward `shows`, `demonstrates`, or direct causal language for the layer they actually isolate;
+- missing species-resolved or flux-resolved evidence usually limits the **species/flux-specific layer**, not necessarily the broader system-level interpretation;
+- omics alone rarely establishes mechanism, but omics combined with functional/process evidence can materially strengthen a bounded mechanism claim.
+
+When the manuscript's wording is materially weaker than comparable published papers with a similar or stronger evidence package, flag **underclaim risk**. When it is materially stronger, flag **overclaim risk**.
+
 ## No single-assay veto
 
 Do not classify a claim as unsupported solely because one ideal direct experiment is absent.
@@ -44,6 +78,8 @@ For each important claim, build a compact evidence card:
 
 ```text
 Claim:
+Target journal / journal family:
+Comparable published evidence packages:
 Direct evidence:
 Perturbation / intervention evidence:
 Temporal or dose-response evidence:
@@ -52,6 +88,7 @@ Relevant controls:
 Alternative explanations tested or weakened:
 Evidence dependencies / shared measurement basis:
 Important missing evidence:
+Published wording envelope:
 Strongest defensible claim:
 Claims that remain too strong:
 ```
@@ -60,7 +97,7 @@ Do not count evidence lines by number alone. Weight their independence, relevanc
 
 ## Evidence tiers
 
-Use the following working tiers for claim calibration:
+Use the following working tiers for claim calibration. These tiers are defaults and should be adjusted within the target-journal empirical envelope when a benchmark is available.
 
 ### Tier 1 — Directly demonstrated
 
@@ -84,7 +121,8 @@ Appropriate language may include:
 - `provides evidence for`;
 - `is consistent with a model in which`;
 - `collectively indicates`;
-- `supports the interpretation that`.
+- `supports the interpretation that`;
+- `promotes` or `facilitates` when a target-journal benchmark shows that the functional evidence package supports that level.
 
 Do **not** automatically downgrade Tier 2 to `speculative`, `unsupported`, or `cannot conclude` merely because Tier 1 evidence is absent.
 
@@ -161,33 +199,35 @@ A limitation should define the boundary of the conclusion, not erase the conclus
 
 ## Severity calibration for review findings
 
-Do not assign high-severity labels merely because evidence is indirect.
+Do not assign high-severity labels merely because evidence is indirect or because one ideal assay is absent.
 
 Use:
 
-- **P0 / critical** — factual/data contradiction, invalid calculation, unsupported central claim, materially false species/causal attribution, or conclusion incompatible with the evidence;
+- **P0 / critical** — factual/data contradiction, invalid calculation, unsupported central claim, materially false species/causal attribution, or conclusion incompatible with the evidence and target-journal evidence envelope;
 - **P1 / major** — claim materially exceeds or understates the defensible evidence corridor, important alternative explanation ignored, or a central inference needs substantial recalibration;
 - **P2 / moderate** — wording strength, local evidence linkage, or uncertainty framing can be improved without changing the main scientific interpretation;
 - **P3 / minor** — stylistic precision or optional strengthening/softening.
 
 A claim that is supported by convergent evidence but lacks a single direct assay should not be labeled P0 solely for that reason.
 
+If comparable target-journal papers routinely use stronger bounded wording for a similar evidence architecture, a weaker manuscript statement may itself warrant a P1/P2 **underclaim** finding.
+
 ## Bath–RP / environmental microbiology examples
 
-Apply the existing `PR-RSCH` evidence boundaries, but calibrate them symmetrically.
+Apply the existing `PR-RSCH` evidence boundaries, but calibrate them symmetrically and against relevant target-journal precedent when available.
 
 Examples:
 
 - Bulk community EA-IRMS does not establish RP-specific inorganic-carbon incorporation. However, it can directly support **community-level inorganic carbon incorporation**, and in combination with RP physiology, perturbation, and other orthogonal evidence may support a bounded interpretation about partner-associated metabolic coupling.
 - Metabolite depletion alone does not establish a Bath-to-RP flux. However, production/consumption patterns, RP substrate-use controls, donor perturbation, and temporal coupling may collectively support **diffusible metabolite exchange as a mechanism-consistent interpretation** without naming one carrier as uniquely causal.
-- A GAC-associated enhancement alone does not demonstrate DIET. A stronger DIET claim requires conductive-interface and alternative-pathway evidence; nevertheless, multiple conductive-material and perturbation results may justify `consistent with potential GAC-facilitated electron coupling` rather than forcing a purely agnostic description.
+- A GAC-associated enhancement alone does not demonstrate DIET. A stronger DIET claim requires conductive-interface and alternative-pathway evidence; nevertheless, multiple conductive-material and perturbation results may justify `consistent with potential GAC-facilitated electron coupling` or stronger wording if the complete evidence package matches accepted target-journal precedent.
 
 ## Review output
 
 For central claims, report both overclaim and underclaim risk:
 
-| Claim | Evidence tier | Convergent evidence | Main unresolved boundary | Overclaim risk | Underclaim risk | Recommended wording strength |
-| --- | --- | --- | --- | --- | --- | --- |
+| Claim | Target-journal benchmark | Evidence tier | Convergent evidence | Main unresolved boundary | Overclaim risk | Underclaim risk | Recommended wording strength |
+| --- | --- | --- | --- | --- | --- | --- | --- |
 
 When criticizing a claim, provide the strongest acceptable replacement rather than only saying what cannot be claimed.
 
@@ -207,9 +247,11 @@ A research review passes `PR-CAL` when:
 
 - both overclaim and underclaim risks were considered;
 - important conclusions were evaluated using the full evidence set rather than one assay in isolation;
+- central disputed claims were benchmarked against comparable target-journal papers when the target journal was known and such papers were available;
+- the benchmark used a cohort rather than one bold outlier and compared evidence architecture, not merely topic labels;
 - apparent multiple evidence lines were checked for dependence;
 - material alternative explanations were identified proportionately;
 - limitations define the claim boundary without unnecessarily erasing supported conclusions;
-- central claims use the strongest defensible wording within the evidence corridor;
+- central claims use the strongest defensible wording within both the evidence corridor and the target-journal empirical envelope;
 - severe unsupported-claim labels are not assigned solely because one ideal direct assay is missing;
 - each major criticism includes a scientifically supportable positive replacement where possible.
