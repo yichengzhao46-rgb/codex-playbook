@@ -29,6 +29,7 @@ Do not store project-specific raw data, manuscript datasets, generated scientifi
 8. Preserve existing working behavior unless the task explicitly requires breaking changes.
 9. Do not invent tool capabilities, files, test results, or external state.
 10. Distinguish clearly between validated practice, experimental practice, and speculation.
+11. Before designing or materially restructuring a reusable PR workflow, skill, router, agent, validation gate, prompt framework, or operating method, apply the [External Workflow Benchmark and Local Adaptation](workflows/external-workflow-benchmark.md) workflow unless the task falls under its explicit non-trigger conditions.
 
 ## Documentation rules
 
@@ -49,6 +50,8 @@ Every meaningful PR should state:
 - known limitations
 - whether the change is stable or experimental
 
+For reusable operating-method changes that trigger external benchmarking, the PR should also summarize the external patterns reviewed, what was adopted/adapted/rejected, the local user-experience signal that justified the change, and the validation boundary.
+
 ## Safety and reversibility
 
 - Never overwrite or remove important material without a clear reason.
@@ -60,3 +63,4 @@ Every meaningful PR should state:
 
 When a Codex workflow succeeds repeatedly, promote it into a reusable method.
 When a workflow fails, record the failure mode and corrected pattern in `notes/` or update the relevant rule.
+External conventions are inputs, not authority: adapt them to demonstrated local needs and reject patterns that add ceremony without reducing a real failure mode or recurring burden.
