@@ -1,17 +1,19 @@
 # Research PR Routing Rules
 
-Use these rules to classify reviewable changes to recurring research and Codex
-workflows.
+Use these rules to classify recurring research and Codex work by the authoritative object being changed, checked, created, or validated.
 
 ## Scope gate
 
-Apply this routing only when the user requests PR packaging, merge review,
-release notes, or a reviewable workflow change package. An ordinary paragraph
-revision, literature lookup, calculation, figure export, or market brief remains
-in its execution workflow.
+These `PR-*` classes are used in two contexts:
 
-If that work changes a reusable script, skill, rule, template, agent, or
-configuration, classify the changed object here.
+1. **task-level validation routing** — select the appropriate validation profile automatically for a non-trivial task; and
+2. **GitHub Pull Request packaging** — classify a reviewable repository change when a branch/PR is created.
+
+The user does not need to request PR packaging or name a PR class for task-level routing. Apply [`../workflows/pr-auto-routing-workflow.md`](../workflows/pr-auto-routing-workflow.md) automatically when an in-scope non-trivial task is described.
+
+An ordinary explanation, simple factual lookup, trivial wording change, or one-off answer may be handled directly without surfacing PR terminology. Selecting a task-level PR profile does **not** by itself require creating a GitHub Pull Request.
+
+If work changes a reusable script, skill, rule, template, agent, or configuration, classify the changed object here even when the user did not explicitly ask for a PR.
 
 ## Generic PR class taxonomy
 
@@ -56,16 +58,20 @@ When signals disagree, apply this precedence:
 1. Explicit user intent defines the requested scope and deliverable.
 2. The authoritative changed object determines the primary PR class.
 3. A personal project key suggests the default specialist or workflow only.
-4. Directory name or current working location is a weak fallback signal.
+4. Directory name, file extension, or current working location is a weak fallback signal.
 
 Example: a `POLYU` task that changes a reusable statistical calculation script is
 `PR-DATA`, not `PR-RSCH`, because the changed authoritative object is the data
 analysis logic.
 
+Example: a DOCX confirmation report being reviewed for scientific argument is
+`PR-RSCH`, not automatically `PR-DOC`; add `PR-DOC` only when native document
+structure or rendering also requires validation.
+
 ## Class selection
 
 - Classify by the authoritative object being changed, not every artifact created
-  during validation.
+  or consulted during validation.
 - A data script that exports a QA plot remains `PR-DATA` unless figure semantics,
   style, layout, or annotations also changed.
 - An Origin-native deliverable is `PR-ORG`; add `PR-DATA` only when calculation
@@ -77,11 +83,13 @@ analysis logic.
   `PR-OPS` with `PR-DOC` as a secondary checklist.
 - A figure embedded in Word is `PR-FIG` when the figure source changed and
   `PR-DOC` when only placement, pagination, captions, or rendering changed.
+- Use of an approved skill or tool does not make the task `PR-OPS`; classify the
+  actual user-facing authoritative object.
 
 ## Split versus mixed
 
 Choose one primary class. Add a secondary checklist only for a genuine
-cross-boundary dependency.
+cross-boundary dependency or validation need.
 
 Use `PR-MIX` only when one atomic change affects multiple authoritative objects
 and separating them would make either part unusable. A `PR-MIX` package must
@@ -99,17 +107,29 @@ Common split candidates include:
 - reusable plotting workflow versus one project figure
 - Word renderer repair versus substantive document edits
 
+## Automatic specialist overlays
+
+After choosing the primary class, load only the specialist workflow needed for the scenario. The automatic trigger logic is defined in [`../workflows/pr-auto-routing-workflow.md`](../workflows/pr-auto-routing-workflow.md).
+
+Examples include:
+
+- `PR-AUTH` under `PR-RSCH` for AI-assisted/formulaic academic writing and comprehensive authorship-style review;
+- `PR-DATA` secondary validation for manuscript findings that require recalculation or raw-data verification;
+- `PR-DOC` secondary validation for native DOCX/PDF structure or render QA;
+- skill-lifecycle or external-agent integration specialist workflows under `PR-OPS` when approved in the current playbook.
+
 ## Compact invocation card
 
-Retain this card before loading detailed checklists:
+Retain this card internally for non-trivial work; do not require the user to fill it in:
 
 ```text
 Project key or GENERAL:
 Scenario:
+Authoritative object:
 Primary PR class:
-Secondary checklist, if required:
-Execution specialist:
-Authoritative source:
+Secondary/specialist checklist, if required:
+Execution route: ChatGPT | Codex | Mixed
 Expected validation:
+GitHub PR needed: yes | no | later
 Split or combined:
 ```
