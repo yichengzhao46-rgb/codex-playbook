@@ -17,6 +17,11 @@ Methods should be developed and refined here, then applied and tested in `codex-
 
 See [`TASK_ROUTING.md`](TASK_ROUTING.md) for the current policy on when to use ChatGPT, when to use Codex, and when a mixed workflow is more efficient. Routing is based on task nature, verification needs, and total execution cost rather than a fixed permission boundary.
 
+For operational use:
+
+- [`workflows/task-routing-workflow.md`](workflows/task-routing-workflow.md) — minimum intake and execution procedure for choosing ChatGPT, Codex, or Mixed.
+- [`templates/task-envelope.md`](templates/task-envelope.md) — bounded handoff template for Mixed workflows.
+
 ## Repository structure
 
 ```text
