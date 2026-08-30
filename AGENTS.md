@@ -30,6 +30,8 @@ Do not store project-specific raw data, manuscript datasets, generated scientifi
 9. Do not invent tool capabilities, files, test results, or external state.
 10. Distinguish clearly between validated practice, experimental practice, and speculation.
 11. Before designing or materially restructuring a reusable PR workflow, skill, router, agent, validation gate, prompt framework, or operating method, apply the [External Workflow Benchmark and Local Adaptation](workflows/external-workflow-benchmark.md) workflow unless the task falls under its explicit non-trigger conditions.
+12. For every substantive academic-prose revision, automatically apply [PR-AUTH](workflows/pr-auth-academic-writing.md), including academic-style review, qualitative AI-writing-risk review, and meaning-diff validation.
+13. For document/file edits, never overwrite the only recoverable original. Prefer an untouched original plus a versioned revised copy; otherwise use a dedicated version-controlled branch or verify a backup before in-place overwrite.
 
 ## Documentation rules
 
@@ -52,11 +54,18 @@ Every meaningful PR should state:
 
 For reusable operating-method changes that trigger external benchmarking, the PR should also summarize the external patterns reviewed, what was adopted/adapted/rejected, the local user-experience signal that justified the change, and the validation boundary.
 
+For substantive academic-prose changes, the PR or task completion record should also state:
+- whether PR-AUTH was run;
+- the qualitative AI-writing-risk result for changed text;
+- whether the original was preserved;
+- where the revised copy/branch lives and how to roll back.
+
 ## Safety and reversibility
 
 - Never overwrite or remove important material without a clear reason.
 - Prefer additive, reviewable changes.
 - Keep changes easy to revert.
+- For manuscripts and other important documents, preserve the original by default and create a clearly versioned revised output.
 - Avoid committing secrets, tokens, credentials, or private keys.
 
 ## Continuous improvement
