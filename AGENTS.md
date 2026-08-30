@@ -21,17 +21,18 @@ Do not store project-specific raw data, manuscript datasets, generated scientifi
 
 1. Inspect existing repository context before editing.
 2. For every non-trivial in-scope task, automatically apply [`workflows/pr-auto-routing-workflow.md`](workflows/pr-auto-routing-workflow.md) before execution. Infer the primary PR validation profile and any specialist checklist from the task itself; do not require the user to name a PR class.
-3. Select ChatGPT, Codex, or Mixed execution independently from the PR validation profile using the task-routing policy. A task-level `PR-*` profile does not by itself require creation of a GitHub Pull Request.
-4. For non-trivial changes, make a short implementation plan before modifying files.
-5. Keep each change focused on one logical objective.
-6. Prefer a dedicated branch for meaningful changes.
-7. Prefer Draft Pull Requests for Codex-generated work.
-8. Do not merge meaningful changes automatically unless explicitly instructed.
-9. Review the final diff before proposing completion.
-10. Preserve existing working behavior unless the task explicitly requires breaking changes.
-11. Do not invent tool capabilities, files, test results, or external state.
-12. Distinguish clearly between validated practice, experimental practice, and speculation.
-13. Before designing or materially restructuring a reusable PR workflow, skill, router, agent, validation gate, prompt framework, or operating method, apply the [External Workflow Benchmark and Local Adaptation](workflows/external-workflow-benchmark.md) workflow unless the task falls under its explicit non-trigger conditions.
+3. For `PR-RSCH` tasks that evaluate, rewrite, strengthen, weaken, or adjudicate scientific claims or mechanism interpretations, automatically apply [`workflows/pr-cal-evidence-calibration.md`](workflows/pr-cal-evidence-calibration.md). Evaluate both overclaim and underclaim risk and prefer the strongest defensible claim rather than the most cautious possible wording.
+4. Select ChatGPT, Codex, or Mixed execution independently from the PR validation profile using the task-routing policy. A task-level `PR-*` profile does not by itself require creation of a GitHub Pull Request.
+5. For non-trivial changes, make a short implementation plan before modifying files.
+6. Keep each change focused on one logical objective.
+7. Prefer a dedicated branch for meaningful changes.
+8. Prefer Draft Pull Requests for Codex-generated work.
+9. Do not merge meaningful changes automatically unless explicitly instructed.
+10. Review the final diff before proposing completion.
+11. Preserve existing working behavior unless the task explicitly requires breaking changes.
+12. Do not invent tool capabilities, files, test results, or external state.
+13. Distinguish clearly between validated practice, experimental practice, and speculation.
+14. Before designing or materially restructuring a reusable PR workflow, skill, router, agent, validation gate, prompt framework, or operating method, apply the [External Workflow Benchmark and Local Adaptation](workflows/external-workflow-benchmark.md) workflow unless the task falls under its explicit non-trigger conditions.
 
 ## Documentation rules
 
