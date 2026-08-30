@@ -26,6 +26,10 @@ For operational use:
 
 - [`skills/literature-guided-analysis/SKILL.md`](skills/literature-guided-analysis/SKILL.md) — **stable / forward-validated once** recommendation-first workflow that uses published literature to interpret user data patterns, generate 3–5 candidate analysis directions, distinguish current-data analysis from new evidence generation, and produce a detailed plan after user selection.
 
+## Workspace maintenance skills
+
+- [`skills/project-artifact-cleanup/SKILL.md`](skills/project-artifact-cleanup/SKILL.md) — **experimental** reversible cleanup workflow for classifying project files as KEEP / SAFE-DELETE / ARCHIVE / REVIEW, isolating preview/render/temp artifacts, protecting research sources and Git-tracked work, and requiring a dry-run plus second deletion manifest before permanent removal.
+
 ## Repository structure
 
 ```text
