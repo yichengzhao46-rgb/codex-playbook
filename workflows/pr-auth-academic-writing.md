@@ -1,12 +1,22 @@
 # PR-AUTH Academic Authorship and AI-Writing Risk Workflow
 
-Use this specialist checklist under `PR-RSCH` when revising manuscripts, thesis or
-confirmation-report chapters, proposals, or other academic prose where scientific
-validity, institutional academic style, author-specific voice, and formulaic or
-AI-like writing patterns all need to be controlled.
+Use this specialist checklist under `PR-RSCH` for **every substantive revision of academic prose**, including manuscripts, thesis or confirmation-report chapters, proposals, responses to reviewers, figure legends, abstracts, and conclusions.
 
 `PR-AUTH` is **not** a PR class. The authoritative object remains academic prose,
 so the primary class is normally `PR-RSCH`.
+
+## Automatic trigger
+
+Trigger `PR-AUTH` automatically whenever a task:
+
+- revises, rewrites, condenses, expands, restructures, or harmonizes academic prose;
+- changes the wording used to interpret research data, figures, tables, or mechanisms;
+- adds or revises a manuscript/thesis argument, discussion, conclusion, abstract, caption, or objective;
+- asks for academic-style improvement, AI-writing-risk reduction, or human-like but academically appropriate wording.
+
+Do **not** wait for a separate user request to check academic style or AI-writing risk once substantive academic prose is being changed.
+
+Non-trigger cases include purely mechanical formatting with no prose changes, deterministic calculations, code-only changes, or figure-layout-only edits that do not modify academic text.
 
 ## Governing priority
 
@@ -34,6 +44,27 @@ Where a local assignment prompt, supervisor instruction, journal guide, rubric,
 or project-specific rule conflicts with a generic style preference, follow the
 more specific authoritative instruction unless it would violate scientific
 accuracy or research integrity.
+
+## Stage 0 — Original-safe editing gate
+
+Before any tool or agent writes changes into a user document or repository file, establish a reversible editing path.
+
+Default order of preference:
+
+1. **Versioned revised copy:** keep the original file untouched and write a new file such as `name_revised_v1.docx`, `name_PR-AUTH_v1.docx`, or an equivalently clear versioned filename.
+2. **Version-controlled branch:** for repository text files, make changes on a dedicated branch so the pre-edit version remains recoverable from Git history; do not edit the only copy directly on `main` for meaningful prose changes.
+3. **Explicit backup before overwrite:** only when the workflow genuinely requires in-place editing, create and verify a backup copy before overwrite.
+
+For Word/PDF deliverables, prefer **original + revised copy** over hidden in-place replacement. If tracked changes are specifically requested and supported, the tracked-change document may serve as the revised copy, but the original must still remain available.
+
+If a backup/revised copy cannot be created or version-control recovery cannot be verified, stop before destructive overwrite and report the constraint.
+
+Record in the task/PR output:
+
+- original filename/path;
+- revised filename/path or branch;
+- whether the original was left untouched;
+- how rollback/recovery is performed.
 
 ## Stage 1 — Meaning lock
 
@@ -191,8 +222,9 @@ already supported by the source text.
 
 ## Stage 5 — AI-writing risk classification
 
-Do not report an invented probability of AI authorship. Use a qualitative
-formulaic-writing risk classification instead:
+Run this stage automatically for every substantive academic-prose revision covered by this workflow.
+
+Do not report an invented probability or percentage of AI authorship. Use a qualitative formulaic-writing risk classification instead:
 
 | Level | Interpretation | Default action |
 | --- | --- | --- |
@@ -202,9 +234,20 @@ formulaic-writing risk classification instead:
 | D | strongly formulaic, over-smoothed, or low-specificity prose | priority rewrite |
 | E | pervasive template structure with weak author-specific reasoning | deep restructure |
 
+The automatic audit should check at minimum:
+
+- repeated discourse markers and stock transitions;
+- repeated sentence frames or paragraph templates;
+- generic significance claims not anchored to the actual experiment;
+- excessive symmetry or over-smoothed prose;
+- vague evidence references (`these findings`, `this mechanism`) where specific observations are available;
+- unnecessary restatement of the same conclusion;
+- abrupt shifts in author voice or information density;
+- suspiciously generic phrasing that could apply to unrelated studies.
+
 AI-detector outputs, including institutional detector reports, are external
 signals only. They must not be treated as proof of authorship and must not
-supersede scientific or academic-writing requirements.
+supersede scientific or academic-writing requirements. If an actual detector result is supplied or explicitly requested through an available external service, record the detector name/version/date when known and treat its score only as an auxiliary review signal.
 
 ## Stage 6 — Evidence-preserving rewrite
 
@@ -254,9 +297,15 @@ For quantitative issues, distinguish explicitly among **confirmed conflict**,
 **apparent discrepancy**, and **needs source-data verification**; do not collapse
 all three into a high-severity inconsistency label.
 
+For file-producing tasks, also report the original-safe editing status:
+
+| Original | Revised / branch | Original preserved? | Rollback path |
+| --- | --- | --- | --- |
+
 ## Completion criteria
 
 - Scientific validity takes precedence over detector-related goals.
+- PR-AUTH was triggered automatically for substantive academic-prose changes.
 - PolyU / local academic-style constraints have been checked where applicable.
 - Formulaic-writing risk is reported qualitatively, not as a fabricated AI
   probability.
@@ -267,3 +316,4 @@ all three into a high-severity inconsistency label.
   checks before severity is assigned.
 - External AI-detector results, if supplied, are treated only as locations for
   additional review rather than as definitive evidence.
+- The original document/file remains recoverable through an untouched original, a versioned revised copy, or verified version-control history.
