@@ -10,7 +10,8 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 2. Apply the [Research PR Routing Rules](../rules/research-pr-routing.md).
 3. Select one project key (or `GENERAL`) and one primary PR class.
 4. Complete specialist execution before returning here for PR packaging.
-5. Create a Draft PR by default and leave merge approval to a human.
+5. For reusable `PR-OPS` design or material restructuring, first apply the [External Workflow Benchmark and Local Adaptation](external-workflow-benchmark.md) workflow unless its non-trigger conditions apply.
+6. Create a Draft PR by default and leave merge approval to a human.
 
 ## Procedure
 
@@ -40,6 +41,9 @@ It extends the repository's general [Pull Request Workflow](pull-request-workflo
 - Run the relevant structural validator when available.
 - For project-agent routing, preserve one coordinator plus one primary
   specialist and staged context loading.
+- When the change designs, materially restructures, or promotes reusable operating behavior, apply the external benchmark/local-adaptation gate before implementation.
+- Do not copy external workflow architecture directly. Record which principles were adopted, adapted, rejected, or left unresolved, and tie accepted changes to a concrete local need or user-experience signal.
+- For meaningful new trigger/routing behavior, require at least one positive case and one negative control before stable promotion.
 
 ### `PR-LIT`: Zotero and literature systems
 
@@ -117,6 +121,7 @@ For research-supporting changes, keep these categories separate in the PR:
 - The project key (or `GENERAL`) and primary PR class are stated.
 - The authoritative source and validation level are explicit.
 - For `PR-MIX`, constituent classes and the reason splitting is not viable are stated.
+- For benchmark-triggered `PR-OPS` work, external patterns and local adaptation decisions are documented at the level needed to justify the design without turning the stable workflow into a literature review.
 - The final diff contains no unrelated changes or secrets.
 - Known limitations and rollback are documented.
 - The Draft PR is open and not merged automatically.

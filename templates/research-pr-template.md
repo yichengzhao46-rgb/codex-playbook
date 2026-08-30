@@ -23,6 +23,21 @@ Remove sections and checklist rows that do not apply.
 
 - `path`:
 
+## External benchmark and local adaptation
+
+Include this section when the External Workflow Benchmark and Local Adaptation workflow is triggered.
+
+- Local problem:
+- External patterns reviewed:
+- Adopted principles:
+- Adapted principles:
+- Rejected / unresolved patterns:
+- User-experience evidence:
+- Local changes from external patterns:
+- Positive case:
+- Negative control:
+- Validation status / remaining boundary:
+
 ## Workflow coverage
 
 | Class | Area | Source of truth | Validation | Status |
@@ -37,6 +52,7 @@ Remove sections and checklist rows that do not apply.
 - [ ] Zotero storage/index QA:
 - [ ] Word/PDF structural QA:
 - [ ] Regression or smoke test:
+- [ ] If benchmark-triggered `PR-OPS`, external patterns were locally adapted rather than copied and at least one positive/negative case was defined where meaningful:
 - [ ] If `PR-MIX`, all constituent validation gates applied:
 
 ## Evidence boundaries
