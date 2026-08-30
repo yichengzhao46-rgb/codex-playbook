@@ -6,8 +6,11 @@ primary_pr_class: PR-OPS
 secondary_validation_lenses:
   - PR-RSCH
   - PR-DATA
-status: experimental
-version: 0.1
+status: stable
+version: 0.2
+validation_status: forward-validated once
+validation_evidence:
+  - codex-workbench PR #13 — Chapter 3 Bath–RP extracellular riboflavin case
 ---
 
 # Literature-guided Data Analysis Advisor
@@ -21,7 +24,7 @@ The Skill should:
 1. understand the user's data structure and observed trends;
 2. search published literature for how comparable data are analyzed and interpreted;
 3. extract analysis frameworks, attribution logic, controls, and evidence boundaries from the literature;
-4. generate 3–5 candidate analysis directions with literature support, applicability conditions, expected outputs, and main caveats;
+4. generate 3–5 candidate analysis directions with literature support, applicability conditions, expected outputs, evidence-generation type, expected evidence upgrade, and main caveats;
 5. wait for the user to select a direction before producing a detailed execution plan.
 
 This is a recommendation-first workflow. Do not automatically execute all candidate analyses before the user chooses a direction.
@@ -91,7 +94,30 @@ The default output is a ranked set of candidate directions, not a completed anal
 
 The user should choose the direction unless one option is clearly dominant and the alternatives are materially inferior. Even then, explain why.
 
-### 5. Route execution separately
+### 5. Distinguish analysis from evidence generation
+
+Every candidate direction must state what kind of work would actually be required to pursue it.
+
+Use exactly one primary **Evidence-generation type**:
+
+- `Current-data analysis` — can be answered from the currently available summarized or structured data without requiring a new experiment;
+- `Reanalysis requiring raw data` — requires raw replicate-level data, recalculation, normalization, modeling, or reproducible quantitative reanalysis;
+- `New measurement` — requires an additional measurement on existing or newly collected material, but not a new mechanistic perturbation design;
+- `New mechanistic experiment` — requires a perturbation, add-back, depletion, inhibition, tracing, electrochemical test, or other experiment intended to distinguish causal/mechanistic explanations.
+
+If a direction genuinely spans more than one type, name the primary type first and explain the secondary requirement rather than collapsing all directions into one category.
+
+For each direction also state **Evidence upgrade if successful**. This field should describe the bounded change in evidentiary strength that a successful result could provide, for example:
+
+`descriptive association → perturbation-supported interpretation`
+
+or:
+
+`fluorescence-defined pool → chemically validated flavin identity`
+
+Do not use this field to promise a positive biological result. It describes the evidentiary upgrade that would be possible if the analysis or experiment supports the proposed interpretation.
+
+### 6. Route execution separately
 
 After a direction is selected:
 
@@ -201,6 +227,8 @@ Literature basis:
 Required inputs:
 Recommended analysis family:
 Main comparison / model:
+Evidence-generation type: Current-data analysis | Reanalysis requiring raw data | New measurement | New mechanistic experiment
+Evidence upgrade if successful:
 Expected output:
 What conclusion it could support:
 What it cannot establish:
@@ -218,7 +246,7 @@ Rank directions using:
 2. compatibility with available data and controls;
 3. strength of literature precedent;
 4. ability to distinguish competing explanations;
-5. expected information gain;
+5. expected information gain and evidence upgrade;
 6. execution burden;
 7. risk of overinterpretation.
 
@@ -226,11 +254,11 @@ Do not rank an analysis highly merely because it is sophisticated.
 
 ### Preferred output table
 
-| Rank | Analysis direction | Why useful | Literature support | Required data | Expected output | Main limitation |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 |  |  |  |  |  |  |
-| 2 |  |  |  |  |  |  |
-| 3 |  |  |  |  |  |  |
+| Rank | Analysis direction | Evidence-generation type | Why useful | Literature support | Required data | Evidence upgrade if successful | Expected output | Main limitation |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 |  |  |  |  |  |  |  |  |
+| 2 |  |  |  |  |  |  |  |  |
+| 3 |  |  |  |  |  |  |  |  |
 
 After the table, provide a short recommendation stating which direction is the best default and why.
 
@@ -244,6 +272,8 @@ Once the user selects a direction, create an **Analysis Execution Card**.
 Selected direction:
 Scientific objective:
 Primary hypothesis or contrast:
+Evidence-generation type:
+Evidence upgrade if successful:
 Required input files / variables:
 Inclusion / exclusion rules:
 Normalization / transformation:
@@ -303,17 +333,18 @@ STEP 3 — FRAMEWORK EXTRACTION
 For relevant papers, extract the scientific question, triggering data pattern, analytical method, required inputs, attribution logic, expected output, evidence strength, and transfer limitations. Focus on how the paper distinguishes competing explanations, not merely which software or statistical test it uses.
 
 STEP 4 — CANDIDATE DIRECTIONS
-Generate 3–5 analytically distinct candidate directions. For each, state the scientific question, fit to the user's data, literature basis, required inputs, analysis family, expected output, supported conclusion, unsupported conclusion, applicability conditions, assumptions, execution route, and priority. Rank them by scientific relevance, data compatibility, evidence precedent, information gain, execution burden, and overinterpretation risk.
+Generate 3–5 analytically distinct candidate directions. For each, state the scientific question, fit to the user's data, literature basis, required inputs, analysis family, evidence-generation type, evidence upgrade if successful, expected output, supported conclusion, unsupported conclusion, applicability conditions, assumptions, execution route, and priority. Use one primary evidence-generation type from: Current-data analysis; Reanalysis requiring raw data; New measurement; New mechanistic experiment. Rank the directions by scientific relevance, data compatibility, evidence precedent, information gain/evidence upgrade, execution burden, and overinterpretation risk.
 
 Do not automatically execute all candidates. Present the ranked directions and ask the user to choose one unless the user has already authorized the top-ranked direction.
 
 STEP 5 — SELECTED EXECUTION PLAN
-After the user selects a direction, produce a detailed analysis execution card including inputs, preprocessing, replicate handling, statistics/analysis, assumptions, sensitivity checks, expected tables/figures, literature anchors, interpretation boundaries, execution route, validation, deliverables, and escalation conditions.
+After the user selects a direction, produce a detailed analysis execution card including evidence-generation type, evidence upgrade if successful, inputs, preprocessing, replicate handling, statistics/analysis, assumptions, sensitivity checks, expected tables/figures, literature anchors, interpretation boundaries, execution route, validation, deliverables, and escalation conditions.
 
 Throughout the workflow:
 - separate direct observation, reasonable interpretation, contextual literature knowledge, analogy, and unresolved inference;
 - treat literature as precedent, not proof of applicability;
 - consider converging evidence jointly rather than requiring one isolated result to carry the full interpretation;
+- distinguish analysis of existing evidence from generation of new evidence;
 - route executable quantitative work to Codex or Mixed only when deterministic execution and verification become material;
 - never invent raw data, metadata, statistical significance, or source support.
 ```
@@ -325,6 +356,27 @@ This Skill is a reusable operating method, so changes to the Skill itself are no
 Use `PR-RSCH` and `PR-DATA` as secondary validation lenses when checking whether the Skill preserves scientific claim boundaries and quantitative analysis discipline.
 
 Do not use `PR-MIX` merely because the Skill touches literature, scientific interpretation, and data analysis. Use `PR-MIX` only if one actual repository change modifies multiple inseparable authoritative objects.
+
+## Validation evidence and maturity
+
+Status: **stable / forward-validated once**.
+
+Forward validation was performed in `codex-workbench` PR #13 using a representative real microbiology case: extracellular riboflavin data from a defined Bath–RP coculture with monoculture controls, time-resolved measurements, a high-O₂ perturbation, extracellular metabolite data, community-level ATP/NADH measurements, physiological observations, and bulk stable-isotope incorporation.
+
+The validation showed that the Skill could:
+
+- structure the user's actual data before searching literature;
+- retrieve direct-system and mechanistically relevant literature rather than generic statistical precedents;
+- extract transferable reasoning frameworks;
+- generate five analytically distinct directions spanning current-data analysis, raw-data reanalysis, new measurement, and new mechanistic experiments;
+- preserve the distinction between extracellular riboflavin abundance, secretion, redox state/speciation, and electron-transfer flux;
+- preserve community-level attribution for ATP/NADH and bulk ¹³C data;
+- rank directions without automatically executing all of them;
+- maintain the user-choice gate before Step 5.
+
+The validation also motivated the addition of `Evidence-generation type` and `Evidence upgrade if successful`, which make the recommendation list distinguish analyses of existing evidence from work that would generate new evidence.
+
+Evidence scope remains bounded. One successful forward validation does not establish universal performance across all omics, imaging, clinical, ecological, engineering, or statistical-analysis contexts. Additional materially different cases should expand the validation record rather than silently broadening the maturity claim.
 
 ## Validation cases
 
@@ -338,6 +390,7 @@ Expected behavior:
 - data structure is understood before literature search;
 - relevant literature frameworks are extracted;
 - 3–5 directions are produced;
+- each direction identifies evidence-generation type and potential evidence upgrade;
 - user-choice gate occurs before execution.
 
 ### Negative control 1
@@ -366,6 +419,8 @@ A successful run must:
 - use published literature to extract reasoning frameworks, not just citations;
 - provide 3–5 genuinely distinct candidate directions when supported;
 - state applicability conditions and what each direction cannot establish;
+- state `Evidence-generation type` for each direction;
+- state the bounded `Evidence upgrade if successful` for each direction;
 - preserve evidence boundaries and quantitative definitions;
 - wait for user selection before detailed execution unless prior authorization exists;
 - route execution according to task difficulty and verification needs;
