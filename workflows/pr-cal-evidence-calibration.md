@@ -44,6 +44,31 @@ For central or disputed claims:
 
 Use target-journal papers as calibration evidence, not as permission to reproduce unsupported wording. A published overclaim is not automatically a valid precedent.
 
+### Maintained empirical corpus requirement
+
+Maintain a reusable target-journal benchmark corpus with at least **50 active, relevant experimental studies**. Prefer a baseline of **60 or more** so that removal of weak, outdated, or poorly matched samples does not collapse coverage.
+
+The corpus should be diversified across the main journal families used for the research program rather than dominated by one venue. For the current environmental microbiology/engineering profile, maintain substantial coverage from:
+
+- **The ISME Journal**;
+- **Environmental Science & Technology**;
+- **Water Research**; and
+- relevant **Nature Portfolio** comparators.
+
+Each active corpus entry should record, at minimum:
+
+- journal and year;
+- experimental system;
+- evidence architecture;
+- focal claim layer;
+- published claim-strength band;
+- narrower limitation or unresolved layer retained by the authors; and
+- why the sample is transferable to PR-CAL calibration.
+
+For a disputed central mechanism claim, do not average the entire corpus. Retrieve the closest empirical neighbours. When practical, use at least **5 close analogues**, including at least **3 papers from the exact target journal** when suitable samples exist.
+
+Corpus membership is evidence for calibration, not authority by majority vote. Remove or down-weight samples that are review articles, commentary, weak topic matches, obvious outlier claims, or papers whose evidence architecture is materially different from the manuscript under review.
+
 ### Journal-family interpretation
 
 For environmental microbiology and engineering, use relevant papers from journals such as **The ISME Journal, Environmental Science & Technology, Water Research**, and appropriate Nature-family comparators when they match the evidence architecture.
@@ -248,7 +273,9 @@ A research review passes `PR-CAL` when:
 - both overclaim and underclaim risks were considered;
 - important conclusions were evaluated using the full evidence set rather than one assay in isolation;
 - central disputed claims were benchmarked against comparable target-journal papers when the target journal was known and such papers were available;
-- the benchmark used a cohort rather than one bold outlier and compared evidence architecture, not merely topic labels;
+- the maintained empirical corpus contains at least 50 active, relevant experimental studies, with 60+ preferred for robust coverage;
+- the benchmark used close empirical neighbours rather than averaging the full corpus or relying on one bold outlier;
+- for major disputed mechanism claims, at least 5 close analogues were used when practical, including at least 3 from the exact target journal when suitable samples existed;
 - apparent multiple evidence lines were checked for dependence;
 - material alternative explanations were identified proportionately;
 - limitations define the claim boundary without unnecessarily erasing supported conclusions;
