@@ -20,6 +20,8 @@ See [`TASK_ROUTING.md`](TASK_ROUTING.md) for the current policy on when to use C
 For operational use:
 
 - [`workflows/task-routing-workflow.md`](workflows/task-routing-workflow.md) — minimum intake and execution procedure for choosing ChatGPT, Codex, or Mixed.
+- [`workflows/execution-route-audit.md`](workflows/execution-route-audit.md) — automatic lightweight Route Receipt for recording the initial route, evidence-based reroutes, final route, and completion evidence.
+- [`templates/route-receipt.md`](templates/route-receipt.md) — compact auditable routing record; chat-only tasks stay in task context rather than creating unnecessary GitHub logs.
 - [`templates/task-envelope.md`](templates/task-envelope.md) — bounded handoff template for Mixed workflows.
 
 ## Research analysis skills
