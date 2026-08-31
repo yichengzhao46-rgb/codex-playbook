@@ -33,14 +33,35 @@ This is normally a `PR-DATA` task with scientific-interpretation constraints.
 - **Codex**: primary executor for combined-reference preparation, mapping, quantification, DESeq2/GSEA, pathway/module tables, plotting, provenance, and reproducible validation.
 - **ChatGPT**: scientific framing, module curation decisions, evidence-boundary review, literature synthesis, and final interpretation.
 - **GitHub**: source of truth for scripts, parameters, manifests, gene-set versions, validation records, and PR review.
-- **NGS Analysis Workbench**: optional execution/cross-check layer for standard RNA-seq QC/count/DE tasks when available.
-- **Biological Sequence & Alignment Viewer**: optional specialist check for homologs, ambiguous loci, and mapped-read evidence when available.
-- **Life Sciences Databases**: **required pathway/function-validation layer when available** for mechanism-critical curated modules; use it before freezing RP/Bath gene sets.
-- **Life Sciences Literature**: required for mechanism-critical assignments that remain uncertain, strain-specific, unusual, or central to the manuscript.
 
-Rosalind Workbench is not required by this workflow.
+### Required plugin stack
 
-For pathway/function validation, automatically apply [`WF-PATHWAY-VALIDATE`](pathway-module-database-validation.md) before finalizing Fig. 3.5a/b/c gene sets or mechanism-critical pathway claims.
+A standard `WF-RNA-DUAL` run should use **all four** of the following specialist plugins when they are accessible in the active environment. They are complementary checkpoints, not interchangeable alternatives.
+
+1. **NGS Analysis Workbench — required sequencing-analysis checkpoint**
+   - inspect FASTQ/QC outputs and standard bulk RNA-seq analysis artifacts;
+   - cross-check read QC, quantification/count outputs, and standard differential-expression/QC results where supported;
+   - compare its outputs with the repository-native Codex pipeline rather than allowing the plugin to silently define the custom dual-species mapping logic.
+
+2. **Biological Sequence & Alignment Viewer — required sequence/species-assignment checkpoint**
+   - inspect Bath/RP homologs, conserved loci, ambiguous mappings, and mechanism-critical sequence assignments;
+   - prioritize CBB genes, formate/H2 genes, respiratory-chain homologs, and any locus that materially affects Fig. 3.5;
+   - use mapped-read/alignment evidence when available to verify that species-specific interpretation is defensible.
+
+3. **Life Sciences Databases — required pathway/function-validation checkpoint**
+   - run [`WF-PATHWAY-VALIDATE`](pathway-module-database-validation.md) before freezing RP or Bath curated gene sets;
+   - verify the chain `exact gene/locus → molecular function/reaction → pathway/module role` using organism-specific evidence where possible;
+   - use appropriate database resources such as UniProt, QuickGO, Rhea, STRING, Reactome when relevant, together with KEGG/eggNOG/MetaCyc or equivalent resources available in the execution environment;
+   - do not treat one pathway label or enrichment result as sufficient proof of mechanism.
+
+4. **Life Sciences Literature — required literature/evidence checkpoint**
+   - validate mechanism-critical, strain-specific, unusual, conflicting, or high-impact pathway assignments against primary literature;
+   - support interpretation of RP donor use, respiratory/redox response, CBB-associated transcription, Bath donor-side pathways, and evidence boundaries;
+   - use literature to calibrate what can be claimed from transcription versus metabolite, physiological, perturbation, and isotope evidence.
+
+**Rosalind Workbench is explicitly excluded from this workflow.**
+
+If one of the four required plugins is temporarily unavailable, do not silently omit its role. Record the checkpoint as `BLOCKED`, use a documented repository/database/literature fallback where possible, and state that the plugin-specific cross-check remains unperformed. A plugin failure must not be converted into a pass.
 
 Use one primary writer at a time.
 
@@ -78,7 +99,7 @@ For each sample report at minimum:
 
 `raw reads → post-filter reads → non-rRNA reads → mapped reads → Bath unique → RP unique → ambiguous/multimapped → unmapped → gene-assigned`
 
-Inspect where available:
+Inspect:
 
 - base quality/adapters;
 - read length/layout;
@@ -92,7 +113,11 @@ Inspect where available:
 
 Record mapper/quantifier, version, and parameters. Do not silently change strategies across samples.
 
-Primary output: **Fig. S18** + machine-readable QC table.
+### Plugin checkpoint A — NGS Analysis Workbench
+
+Run the NGS plugin on the standard QC/quantification scope it supports and compare its QC/count/DE artifacts with the Codex pipeline. Record agreements, discrepancies, and unsupported custom steps. The custom Bath/RP competitive-assignment policy remains controlled by the repository workflow.
+
+Primary output: **Fig. S18** + machine-readable QC table + plugin cross-check note.
 
 ## Phase 3 — Species-resolved quantification
 
@@ -129,25 +154,31 @@ Outputs:
 - **Fig. S20**: volcano + MA;
 - full RP DESeq2 table.
 
+Use NGS Analysis Workbench as an independent standard-analysis cross-check where its supported workflow overlaps this phase.
+
 ## Phase 5 — Mandatory pathway/function validation before RP enrichment
 
 Before GSEA, selected-gene heatmaps, or mechanistic interpretation, run [`WF-PATHWAY-VALIDATE`](pathway-module-database-validation.md).
 
-### Required validation logic
-
-For every mechanism-critical RP module, verify the chain:
+For every mechanism-critical RP module, verify:
 
 `exact RP gene/locus → molecular function/reaction → pathway/module role`
 
-Use organism-specific evidence first. When available through **Life Sciences Databases**, prioritize:
+### Plugin checkpoint B — Life Sciences Databases
 
-- **UniProt** for protein identity, function, EC numbers, domains, and cross-references;
-- **QuickGO** for GO molecular function / biological process annotations;
-- **Rhea** for biochemical reaction identity, especially when production versus consumption direction matters;
-- **STRING** for enrichment/functional association/context support, but never as sole biochemical proof;
+Use organism-specific evidence first. Prioritize:
+
+- **UniProt** for protein identity/function, EC numbers, domains, and cross-references;
+- **QuickGO** for GO molecular-function and biological-process annotations;
+- **Rhea** for biochemical reaction identity when a reaction assignment matters;
+- **STRING** for enrichment/functional-association/context support, not as sole biochemical proof;
 - **Reactome** only when a relevant organism/event mapping exists; do not directly transfer human pathway definitions to bacterial genes.
 
-Also use KEGG/eggNOG/MetaCyc or equivalent resources in the execution environment when available, plus primary literature for mechanism-critical or conflicting assignments.
+Also use KEGG/eggNOG/MetaCyc or equivalent resources when available in the execution environment.
+
+### Plugin checkpoint C — Life Sciences Literature
+
+For mechanism-critical, conflicting, unusual, or strain-specific assignments, verify with primary literature before freezing the module. Literature support is especially important where database annotation alone does not distinguish a complete physiological route from a plausible homologous function.
 
 Freeze a versioned RP gene-set file after validation. Do not adjust membership merely to improve enrichment direction.
 
@@ -211,7 +242,7 @@ Expanded heatmap belongs in **Fig. S22**.
 
 If no Bath-only transcriptomic comparator exists, do not present Bath coculture-versus-monoculture differential-expression claims.
 
-Before calculating module coverage, run [`WF-PATHWAY-VALIDATE`](pathway-module-database-validation.md) for Bath modules.
+Before calculating module coverage, run `WF-PATHWAY-VALIDATE` for Bath modules using **Life Sciences Databases + Life Sciences Literature**.
 
 Default Bath modules to validate:
 
@@ -261,9 +292,17 @@ Explicitly review mechanism-critical homologs in both organisms, prioritizing:
 - genes with unexpectedly high ambiguous/multimapped support;
 - loci central to Fig. 3.5d.
 
-Use sequence/alignment/read evidence to classify species-unique, resolvable homologous, or ambiguous signal. Do not silently assign ambiguous reads to a preferred organism.
+### Plugin checkpoint D — Biological Sequence & Alignment Viewer
 
-Output: **Fig. S24** + ambiguity/homology table.
+Use the sequence/alignment viewer to inspect the relevant Bath/RP sequences, homolog relationships, alignments, and mapped-read evidence where supported. Classify each audited locus as:
+
+- species-unique;
+- resolvable homologous;
+- ambiguous/unresolved.
+
+Do not silently assign ambiguous reads to a preferred organism. A mechanism-critical unresolved locus must be downgraded or excluded from species-specific interpretation.
+
+Output: **Fig. S24** + ambiguity/homology table + sequence-viewer audit note.
 
 ## Phase 9 — Integrated mechanism model
 
@@ -283,6 +322,8 @@ Do not use one shared TPM scale to imply direct Bath/RP expression comparability
 Use stronger links only where independent metabolite/gas/physiology/isotope evidence supports the connection. Keep genomic/transcriptional-only routes dashed/candidate.
 
 Do not draw a complete Bath acetate-production, H2-production, or mediator pathway unless validated gene/reaction evidence supports it.
+
+Before finalizing Fig. 3.5d, use **Life Sciences Literature** to check that the proposed interpretation is consistent with relevant published physiology and that the wording does not exceed the underlying evidence.
 
 ## Phase 10 — Required evidence boundaries
 
@@ -316,7 +357,8 @@ Unless explicitly narrowed, prepare:
 - versioned RP and Bath gene-set files;
 - unresolved pathway/annotation conflict list;
 - software/environment/parameter manifest;
-- concise analysis README.
+- concise analysis README;
+- **plugin checkpoint report** recording NGS Analysis Workbench, Biological Sequence & Alignment Viewer, Life Sciences Databases, and Life Sciences Literature as `PASS`, `PARTIAL`, or `BLOCKED`, with what each actually checked.
 
 Do not perform WGCNA by default for the six-sample RP comparison. Reconsider only with a substantially larger, suitable sample set.
 
@@ -330,21 +372,24 @@ Before completion verify:
 - DESeq2 receives raw integer counts;
 - VST/Z-score is visualization only;
 - GSEA direction maps to an explicit contrast;
-- **Life Sciences Databases / equivalent authoritative database validation has been completed for mechanism-critical curated modules**;
+- NGS Analysis Workbench checkpoint is completed or explicitly `BLOCKED`;
+- Biological Sequence & Alignment Viewer checkpoint is completed or explicitly `BLOCKED`;
+- Life Sciences Databases validation is completed or explicitly `BLOCKED`;
+- Life Sciences Literature validation is completed or explicitly `BLOCKED`;
 - gene-set membership is frozen and auditable before final enrichment/figure generation;
 - provisional genes are separated from core genes;
 - pathway/reaction conflicts remain visible;
 - Bath results are descriptive/supportive without comparator;
 - main claims stay within assay/species evidence boundaries;
 - all main panels trace to machine-readable source tables/scripts;
-- software versions, parameters, database access date/version when available, and analysis commit are recorded;
+- software versions, parameters, database access date/version when available, plugin checkpoint status, and analysis commit are recorded;
 - failed/blocked checks remain explicit.
 
 ## Positive case
 
 Input: `Run WF-RNA-DUAL on the Bath–RP coculture RNA-seq and prepare Fig. 3.5 plus S18–S24.`
 
-Expected behavior: inspect inputs, construct competitive reference, execute species-resolved analysis, **validate RP/Bath pathway membership through WF-PATHWAY-VALIDATE and Life Sciences Databases before freezing gene sets**, separate RP comparative inference from Bath descriptive support, generate outputs, and flag unresolved boundaries.
+Expected behavior: inspect inputs, construct competitive reference, run repository-native species-resolved analysis, use **all four required plugins** for their assigned checkpoints, validate RP/Bath pathway membership before freezing gene sets, separate RP comparative inference from Bath descriptive support, generate outputs, and flag unresolved boundaries.
 
 ## Negative control
 
@@ -356,4 +401,4 @@ Expected behavior: do not launch the full RNA-seq workflow solely because a tran
 
 Status: **experimental / specification-complete, not yet forward-validated on the actual FASTQ dataset**.
 
-Promote to `stable / forward-validated once` only after one complete real-data run verifies species assignment, database-backed module validation, RP differential analysis, Bath support metrics, figure-source traceability, and evidence boundaries.
+Promote to `stable / forward-validated once` only after one complete real-data run verifies species assignment, all four plugin checkpoints, database-backed module validation, RP differential analysis, Bath support metrics, figure-source traceability, and evidence boundaries.
