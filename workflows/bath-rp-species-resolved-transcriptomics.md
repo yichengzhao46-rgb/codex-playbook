@@ -2,54 +2,61 @@
 
 Use this workflow for transcriptomic analysis of the defined *Methylococcus capsulatus* Bath–*Rhodopseudomonas palustris* coculture when the goal is to connect Bath donor-side metabolism with RP recipient-side energy/redox responses and CBB-associated dark inorganic-carbon assimilation without exceeding the evidence supported by bulk RNA-seq and community-level isotope measurements.
 
-This is a reusable analysis method. Project-specific FASTQ files, reference genomes, count matrices, figures, and outputs belong in the relevant execution/project repository, not in `codex-playbook`.
+Project-specific FASTQ files, references, count matrices, figures, and results belong in the execution/project repository, not in `codex-playbook`.
 
 ## Workflow key and invocation
 
 Canonical workflow key: `WF-RNA-DUAL`
 
-Treat any of the following as an explicit request to use this workflow:
+Trigger on:
 
 - `run WF-RNA-DUAL`
 - `run the Bath–RP transcriptomics workflow`
 - `run the Bath–RP RNA-seq full workflow`
 - `run the Fig. 3.5 / S18–S24 transcriptomics workflow`
-- a request for species-resolved Bath–RP coculture transcriptomics that includes differential expression, pathway/module analysis, or integrated mechanistic interpretation
+- species-resolved Bath–RP coculture transcriptomics involving differential expression, pathway/module analysis, or mechanistic integration
 
-Do not trigger this workflow for single-gene RT-qPCR, ordinary single-species RNA-seq, metagenomics, or manuscript wording review that does not require transcriptomic analysis.
+Do not trigger for single-gene RT-qPCR, ordinary single-species RNA-seq, metagenomics, or wording-only manuscript review.
 
 ## Primary objective
 
-Produce a reproducible, species-resolved analysis that supports the following evidence chain:
+Support the evidence chain:
 
 `Bath methane oxidation and donor-side metabolic capacity → candidate diffusible products / reducing equivalents → RP donor utilization and respiratory energy conservation → RP CBB-associated transcriptional response → consistency with enhanced community-level inorganic-carbon incorporation`
 
-The workflow must support this chain without claiming that transcriptomics alone proves metabolite flux, species-specific isotope incorporation, or induction of Bath pathways in the absence of a Bath-only transcriptomic comparator.
+Transcriptomics must not be used alone to prove metabolite flux, species-specific isotope incorporation, or Bath pathway induction without a valid Bath comparator.
 
 ## Default execution route
 
-This is normally a `PR-DATA` task with scientific interpretation constraints.
+This is normally a `PR-DATA` task with scientific-interpretation constraints.
 
-- **Codex**: primary executor for repository-native pipeline construction, combined-reference preparation, mapping, quantification, DESeq2/GSEA scripts, figure generation, reproducibility, and validation.
-- **ChatGPT**: framing, pathway/module curation, literature/database interpretation, evidence-boundary review, and final figure/manuscript reasoning.
-- **GitHub**: versioned source of truth for scripts, parameters, manifests, analysis notes, validation evidence, and PR review.
-- **Optional ChatGPT plugins**: NGS Analysis Workbench, Biological Sequence & Alignment Viewer, Life Sciences Databases, and Life Sciences Literature may be used for cross-checking or specialist inspection when available. They are not required for completion and must not become hidden dependencies.
+- **Codex**: primary executor for combined-reference preparation, mapping, quantification, DESeq2/GSEA, pathway/module tables, plotting, provenance, and reproducible validation.
+- **ChatGPT**: scientific framing, module curation decisions, evidence-boundary review, literature synthesis, and final interpretation.
+- **GitHub**: source of truth for scripts, parameters, manifests, gene-set versions, validation records, and PR review.
+- **NGS Analysis Workbench**: optional execution/cross-check layer for standard RNA-seq QC/count/DE tasks when available.
+- **Biological Sequence & Alignment Viewer**: optional specialist check for homologs, ambiguous loci, and mapped-read evidence when available.
+- **Life Sciences Databases**: **required pathway/function-validation layer when available** for mechanism-critical curated modules; use it before freezing RP/Bath gene sets.
+- **Life Sciences Literature**: required for mechanism-critical assignments that remain uncertain, strain-specific, unusual, or central to the manuscript.
 
-Use one primary writer at a time. If Codex is executing the analysis, ChatGPT should review requirements/results rather than editing the same active files concurrently.
+Rosalind Workbench is not required by this workflow.
+
+For pathway/function validation, automatically apply [`WF-PATHWAY-VALIDATE`](pathway-module-database-validation.md) before finalizing Fig. 3.5a/b/c gene sets or mechanism-critical pathway claims.
+
+Use one primary writer at a time.
 
 ## Required inputs
 
-Before analysis, resolve or explicitly mark missing:
+Resolve or explicitly mark missing:
 
-1. raw or cleaned FASTQ files for every biological replicate;
-2. sample metadata with condition, replicate, library layout, strandedness if known, sequencing batch if applicable, and any other design factor that could affect the model;
-3. authoritative Bath reference genome and annotation;
-4. authoritative RP reference genome and annotation;
-5. expected sample groups, including the RP-only versus coculture comparison used for RP differential expression;
-6. confirmation that Bath lacks an equivalent Bath-only RNA-seq comparator unless new data are supplied;
-7. the target output scope: Fig. 3.5a–d, Figs. S18–S24, tables, or a subset.
+1. FASTQ files for every biological replicate;
+2. sample metadata: condition, replicate, library layout, strandedness if known, batch if applicable;
+3. authoritative Bath genome + annotation;
+4. authoritative RP genome + annotation;
+5. RP-only versus coculture design for RP differential expression;
+6. whether a Bath-only RNA-seq comparator exists;
+7. requested output scope: Fig. 3.5a–d, S18–S24, tables, or subset.
 
-Do not infer missing sample identities or biological replicates from filenames alone when the mapping is ambiguous.
+Do not infer ambiguous sample identities from filenames alone.
 
 ## Phase 1 — Reference preparation and provenance
 
@@ -57,290 +64,296 @@ Build a combined Bath + RP reference for competitive species assignment.
 
 Requirements:
 
-- concatenate the two authoritative genomes and compatible annotations;
-- add unambiguous species prefixes to sequence, gene, transcript, and feature identifiers where needed;
-- preserve an ID mapping table back to the original annotation;
-- record accessions, versions, download dates, checksums when practical, and any annotation transformations;
-- generate an auditable manifest of the exact combined reference used.
+- concatenate authoritative genomes and compatible annotations;
+- add species-unambiguous prefixes to sequence/gene/transcript/feature identifiers as needed;
+- preserve an ID mapping table to original annotations;
+- record accessions, versions, dates, checksums when practical, and annotation transformations;
+- generate a manifest for the exact combined reference.
 
-Preferred principle: competitive assignment against the combined reference rather than sequentially mapping first to one species and then the other. Sequential approaches can bias assignment toward the first reference when homologous reads cross-map.
+Prefer competitive assignment against the combined reference. Do not use sequential Bath-first/RP-second mapping as the default because homologous reads can be biased toward the first reference.
 
 ## Phase 2 — Sequencing and species-assignment QC
 
-For each sample, record at minimum:
+For each sample report at minimum:
 
-`raw reads → post-filter reads → non-rRNA reads → mapped reads → Bath uniquely assigned → RP uniquely assigned → ambiguous/multimapped → unmapped → gene-assigned reads`
+`raw reads → post-filter reads → non-rRNA reads → mapped reads → Bath unique → RP unique → ambiguous/multimapped → unmapped → gene-assigned`
 
-Also inspect when available:
+Inspect where available:
 
-- base-quality and adapter metrics;
-- read length and library layout;
-- duplication or library-complexity signals;
-- inferred/expected strandedness;
+- base quality/adapters;
+- read length/layout;
+- duplication/library complexity;
+- strandedness;
 - rRNA fraction;
 - mapping rate;
-- species-assignment proportions;
-- unexpected contamination or extreme sample imbalance;
+- Bath/RP assignment proportions;
+- contamination/extreme imbalance;
 - replicate consistency.
 
-The exact mapper/quantifier may be selected according to the execution environment, but the choice and parameters must be recorded. Do not silently change aligner or quantification strategy between samples.
+Record mapper/quantifier, version, and parameters. Do not silently change strategies across samples.
 
-Expected primary output: **Fig. S18** and a machine-readable QC table.
+Primary output: **Fig. S18** + machine-readable QC table.
 
 ## Phase 3 — Species-resolved quantification
 
-Generate species-resolved gene-level count matrices and expression summaries.
+Generate species-resolved gene-level counts and expression summaries.
 
 ### RP
 
-Retain raw integer counts for DESeq2. TPM may be generated for descriptive abundance checks but must not be used as DESeq2 input.
+Retain raw integer counts for DESeq2. TPM may be generated for descriptive abundance checks but not used as DESeq2 input.
 
 ### Bath
 
-Generate raw counts and TPM or another explicitly documented within-sample abundance metric. Bath expression is descriptive/supportive unless a valid Bath comparison is supplied.
+Generate raw counts and TPM or another documented within-sample abundance metric. Bath expression remains descriptive/supportive unless a valid comparator is supplied.
 
-Maintain:
-
-- original counts;
-- filtered counts used for downstream analysis;
-- species assignment summary;
-- gene ID/annotation mapping;
-- software versions and parameters.
+Retain original counts, filtered counts, assignment summary, ID/annotation mapping, and software/parameter provenance.
 
 ## Phase 4 — RP comparative transcriptomics
 
-Default comparison: `coculture-derived RP signal vs RP-only`, using the user-approved biological design.
+Default contrast: `coculture-derived RP signal vs RP-only` using the verified biological design.
 
-Use DESeq2 or an equivalently justified count-based model. The default outputs should include:
+Use DESeq2 or an equivalently justified count-based model. Output:
 
 - `baseMean`;
 - `log2FoldChange`;
 - `lfcSE`;
 - Wald statistic;
-- raw P value;
-- BH-adjusted P value/FDR.
+- P value;
+- BH-adjusted P/FDR.
 
-Use transformed counts such as VST for PCA, correlation, clustering, and the selected-gene heatmap. Do not use VST or TPM as the count input for DESeq2 inference.
+Use VST or another justified transform for PCA/correlation/clustering/heatmaps, not for DE inference.
 
-Expected supporting outputs:
+Outputs:
 
-- **Fig. S19**: RP PCA, sample correlation, and hierarchical clustering;
-- **Fig. S20**: RP volcano and MA plots;
-- full DESeq2 results table.
+- **Fig. S19**: PCA, sample correlation, clustering;
+- **Fig. S20**: volcano + MA;
+- full RP DESeq2 table.
 
-## Phase 5 — RP pathway and curated-module analysis
+## Phase 5 — Mandatory pathway/function validation before RP enrichment
 
-Prefer ranked-set analysis based on the DESeq2 Wald statistic when the objective is coordinated pathway/module response rather than enrichment among a thresholded DEG subset.
+Before GSEA, selected-gene heatmaps, or mechanistic interpretation, run [`WF-PATHWAY-VALIDATE`](pathway-module-database-validation.md).
 
-Do not force every biological module into a nominal KEGG pathway. Use a documented mixture of authoritative annotation and curated modules when needed.
+### Required validation logic
 
-Default mechanism-oriented RP modules include:
+For every mechanism-critical RP module, verify the chain:
 
-1. **Donor uptake and utilization**
-   - formate utilization, including `HZF03_03710–03730` where annotation supports this assignment;
-   - H2 metabolism, including `HZF03_04850–04865` where annotation supports this assignment;
-   - acetate activation, including `acs/HZF03_01070` where annotation supports this assignment.
-2. **Energy and reducing-power conservation**
-   - `nuo` / NADH dehydrogenase;
-   - `pet/bc1`;
-   - `cco/cox/cyd` terminal oxidase modules as biologically applicable;
-   - ATP synthase;
-   - `pntAB` and other justified cofactor-balancing functions.
-3. **CBB-associated inorganic-carbon assimilation**
-   - Form I: `cbbL/HZF03_07635`, `cbbS/HZF03_07640`, `cbbX` where supported;
-   - Form II: `cbbM/HZF03_23330` where supported;
-   - `prk/cbbP/HZF03_23345` where supported;
-   - justified RuBP-regeneration genes such as `fba`, `fbp`, and `tkt`.
+`exact RP gene/locus → molecular function/reaction → pathway/module role`
 
-Before finalizing a module, verify gene annotation through authoritative databases and, for mechanism-critical assignments, literature or sequence-level evidence.
+Use organism-specific evidence first. When available through **Life Sciences Databases**, prioritize:
+
+- **UniProt** for protein identity, function, EC numbers, domains, and cross-references;
+- **QuickGO** for GO molecular function / biological process annotations;
+- **Rhea** for biochemical reaction identity, especially when production versus consumption direction matters;
+- **STRING** for enrichment/functional association/context support, but never as sole biochemical proof;
+- **Reactome** only when a relevant organism/event mapping exists; do not directly transfer human pathway definitions to bacterial genes.
+
+Also use KEGG/eggNOG/MetaCyc or equivalent resources in the execution environment when available, plus primary literature for mechanism-critical or conflicting assignments.
+
+Freeze a versioned RP gene-set file after validation. Do not adjust membership merely to improve enrichment direction.
+
+### Default RP modules to validate
+
+**Donor uptake/utilization**
+- proposed formate module including `HZF03_03710–03730` where supported;
+- proposed H2 module including `HZF03_04850–04865` where supported;
+- acetate activation including `acs/HZF03_01070` where supported.
+
+**Energy/reducing-power conservation**
+- `nuo`;
+- `pet/bc1`;
+- `cco/cox/cyd` as biologically applicable;
+- ATP synthase;
+- `pntAB` and justified cofactor-balancing functions.
+
+**CBB-associated inorganic-carbon assimilation**
+- Form I: `cbbL/HZF03_07635`, `cbbS/HZF03_07640`, `cbbX` where supported;
+- Form II: `cbbM/HZF03_23330` where supported;
+- `prk/cbbP/HZF03_23345` where supported;
+- justified RuBP-regeneration genes such as `fba`, `fbp`, `tkt`.
+
+Classify validated genes as core, provisional/extended, excluded, or unresolved. Main-text modules should be driven by well-supported core genes.
+
+## Phase 6 — RP ranked pathway/module analysis
+
+Prefer ranked-set analysis using the DESeq2 Wald statistic when the goal is coordinated pathway/module response rather than enrichment among a thresholded DEG list.
+
+Do not force every curated biological module into a nominal KEGG pathway.
 
 ### Fig. 3.5a
 
-Create a compact enrichment/module plot containing only mechanism-relevant pathways/modules, typically 8–12 rows.
+Show only mechanism-relevant modules, typically 8–12 rows.
 
 Preferred encoding:
 
-- x-axis: normalized enrichment score or equivalent signed enrichment statistic;
+- x: normalized enrichment score or equivalent signed statistic;
 - color: FDR;
-- size: core-enrichment gene count or another clearly defined support metric;
-- positive/negative direction: explicitly tied to coculture versus RP-only.
+- size: core-enrichment gene count or clearly defined support metric;
+- direction explicitly tied to coculture versus RP-only.
 
-The full enrichment landscape belongs in **Fig. S21**.
+Full enrichment background belongs in **Fig. S21**.
 
 ### Fig. 3.5b
 
-Create the RP selected-gene heatmap with all biological replicates shown individually.
+Show all biological replicates individually.
 
-Default expression display:
+Default:
 
-- DESeq2 VST values;
-- gene-wise Z-score for sample-to-sample pattern;
-- adjacent `log2FC` and adjusted P-value/FDR columns.
+- VST expression;
+- gene-wise Z-score across samples;
+- adjacent log2FC and FDR columns;
+- rows grouped by donor utilization, energy/redox conservation, CBB-associated modules.
 
-Group rows by donor utilization, energy/redox conservation, and CBB-associated modules.
+Row Z-score represents relative within-gene sample variation and must not be described as cross-gene absolute “high expression.” Use TPM/count summaries separately when abundance rank matters.
 
-Interpretation boundary: row Z-score represents relative variation across samples for each gene and must not be described as absolute or cross-gene “high expression.” Use TPM or count-based abundance summaries separately when abundance ranking matters.
+Expanded heatmap belongs in **Fig. S22**.
 
-The larger module/gene heatmap belongs in **Fig. S22**.
+## Phase 7 — Mandatory Bath module validation and within-species support
 
-## Phase 6 — Bath within-species transcriptional support
+If no Bath-only transcriptomic comparator exists, do not present Bath coculture-versus-monoculture differential-expression claims.
 
-If there is no Bath-only transcriptomic comparator, do **not** run or present Bath coculture-versus-monoculture differential-expression claims.
+Before calculating module coverage, run [`WF-PATHWAY-VALIDATE`](pathway-module-database-validation.md) for Bath modules.
 
-Instead quantify whether Bath functions required by the proposed donor-side model are transcriptionally represented during cocultivation.
+Default Bath modules to validate:
 
-Default Bath modules:
-
-- methane oxidation: `pmoCAB` and/or `mmoXYBZDC` as encoded and detected;
-- methanol oxidation: `mxa` / `xox` systems;
-- RuMP-cycle functions such as `hps-phi/hxl` where annotation supports them;
+- methane oxidation: `pmoCAB` and/or `mmoXYBZDC` as encoded;
+- methanol oxidation: `mxa/xox`;
+- RuMP functions such as `hps-phi/hxl` where supported;
 - H4MPT-linked C1 oxidation: `fae–mtd–mch–fhc` or strain-appropriate homologs;
 - formate metabolism;
 - respiratory electron transport;
 - candidate H2-related routes;
-- riboflavin biosynthesis/export or other redox-mediator-related functions where genomic/annotation support exists;
+- riboflavin biosynthesis/export or redox-mediator-related functions where supported;
 - intrinsic Bath CBB cycle.
 
-For each module, compute and retain at least:
+For candidate H2 and riboflavin/redox-mediator routes, require stronger validation than gene-name similarity alone; retain as candidate/provisional if the biochemical or pathway link is incomplete.
+
+After freezing the validated Bath module definitions, calculate:
 
 1. **transcriptional coverage** = stably detected core genes / encoded core genes;
-2. **within-Bath expression rank**, preferably median TPM percentile of the module core genes within the Bath transcriptome;
-3. **replicate consistency**, including detection across replicates and a variation metric when informative.
+2. **within-Bath expression rank**, preferably median TPM percentile of core genes;
+3. **replicate consistency**, including detection across replicates and a variation metric when useful.
 
-Define “stably detected” explicitly before analysis. A default may be detection in all biological replicates above a documented minimal expression threshold, but the threshold must be data- and pipeline-aware rather than invented after viewing the desired result.
+Define “stably detected” before outcome-driven interpretation.
 
 ### Fig. 3.5c
 
-Create a Bath module support matrix or bubble matrix:
+Use a Bath module support/bubble matrix:
 
-- rows: Bath functional modules;
-- columns: Bath signal from each coculture biological replicate;
-- size: module coverage or another explicitly defined coverage measure;
-- color: within-Bath expression percentile or rank;
-- side annotation: mechanism-critical genes.
+- rows: validated Bath modules;
+- columns: coculture Bath signal for each replicate;
+- size: module coverage;
+- color: within-Bath expression percentile/rank;
+- side labels: validated mechanism-critical genes.
 
-Allowed conclusion: Bath maintained/demonstrated coordinated transcriptional representation of methane oxidation, C1 metabolism, respiratory energy conservation, and candidate donor-related functions during cocultivation.
+Allowed: Bath maintained/demonstrated transcriptional representation of methane oxidation, C1 metabolism, respiratory energy conservation, and candidate donor-related functions during cocultivation.
 
-Disallowed without a Bath comparator: `induced`, `upregulated`, `enhanced by cocultivation`, or equivalent comparative wording.
+Disallowed without comparator: `induced`, `upregulated`, `enhanced by cocultivation`.
 
-Supporting gene-level Bath heatmaps, TPM tables, coverage summaries, and replicate consistency belong in **Fig. S23** and the Bath expression supplementary table.
+Supporting data belong in **Fig. S23** and the Bath expression table.
 
-## Phase 7 — Cross-species homology and ambiguous-mapping audit
+## Phase 8 — Cross-species homology and ambiguous-mapping audit
 
-Mechanism-critical genes that have homologs in both organisms require explicit species-assignment review.
+Explicitly review mechanism-critical homologs in both organisms, prioritizing:
 
-Prioritize:
+- `cbbL/cbbS` and related CBB genes;
+- respiratory-chain homologs used in main figures;
+- formate/H2 genes;
+- genes with unexpectedly high ambiguous/multimapped support;
+- loci central to Fig. 3.5d.
 
-- CBB genes, especially `cbbL/cbbS` and related homologs;
-- respiratory-chain homologs used in the main figure;
-- formate/H2-related genes;
-- any gene with unexpectedly high ambiguous or multimapped read support;
-- any locus whose interpretation materially affects Fig. 3.5d.
+Use sequence/alignment/read evidence to classify species-unique, resolvable homologous, or ambiguous signal. Do not silently assign ambiguous reads to a preferred organism.
 
-Use sequence comparison and alignment/read evidence as needed to distinguish:
+Output: **Fig. S24** + ambiguity/homology table.
 
-- species-unique signal;
-- resolvable homologous signal;
-- ambiguous signal that should be excluded or downgraded.
-
-Do not silently assign ambiguous reads to a preferred organism.
-
-Expected primary output: **Fig. S24** plus an ambiguity/homology audit table.
-
-## Phase 8 — Integrated mechanistic model
+## Phase 9 — Integrated mechanism model
 
 ### Fig. 3.5d
 
-Integrate transcriptomics with independent physiological/metabolic/isotope evidence. The conceptual chain is:
+Integrate validated transcriptomic modules with independent physiological/metabolic/isotope evidence:
 
 `CH4 → Bath methane oxidation → C1/redox metabolism → candidate formate + H2 + acetate + extracellular redox products → RP uptake/oxidation → respiratory energy conservation → ATP + NADH/NADPH balance → RP CBB-associated response → dark inorganic-carbon incorporation at the community level`
 
-Use different transcriptomic encodings for the two species:
+Use different transcriptomic encodings:
 
-- **Bath**: within-species expression rank, module coverage, and detection consistency;
-- **RP**: coculture-versus-RP-only `log2FC`, Wald/FDR, and coordinated module enrichment.
+- **Bath**: within-species expression rank, module coverage, detection consistency;
+- **RP**: coculture-vs-RP-only log2FC/Wald/FDR + module enrichment.
 
-Never use one shared TPM color scale to imply direct cross-species expression comparability.
+Do not use one shared TPM scale to imply direct Bath/RP expression comparability.
 
-Use evidence-aware edges:
+Use stronger links only where independent metabolite/gas/physiology/isotope evidence supports the connection. Keep genomic/transcriptional-only routes dashed/candidate.
 
-- solid or otherwise stronger links only where independent metabolite, gas, physiological, or isotope evidence supports the connection;
-- dashed/candidate links where support is genomic/transcriptional but direct transfer remains unresolved.
+Do not draw a complete Bath acetate-production, H2-production, or mediator pathway unless validated gene/reaction evidence supports it.
 
-Acetate may connect to RP `acs → acetyl-CoA` when supported by RP substrate-use data, but do not draw a complete Bath acetate-production pathway unless the Bath genomic/transcriptional evidence supports it.
+## Phase 10 — Required evidence boundaries
 
-## Phase 9 — Required evidence boundaries
+1. **Species-specific isotope incorporation**: bulk community EA–IRMS does not prove 13C entered RP biomass. RP CBB transcription and community-level 13C incorporation may be described as mutually consistent evidence.
+2. **Bath induction**: no Bath comparator means no induced/upregulated claims.
+3. **Metabolic flux**: transcripts do not prove donor-to-recipient flux or quantify formate/H2/acetate/mediator contributions.
+4. **Community ATP/NAD(H)**: mixed-culture ATP/NAD(H) remains community-level unless species-resolved.
+5. **Pathway completeness**: expression of partial/candidate pathways must not be presented as a complete confirmed route.
+6. **Multiple evidence lines**: integrate transcriptomics with metabolite, gas, physiology, perturbation, and isotope evidence rather than requiring any single assay to prove the mechanism alone.
 
-The workflow must enforce all of the following:
+When manuscript claims are drafted, also apply the repository evidence-calibration workflow.
 
-1. **Species-specific isotope incorporation**
-   - bulk community EA–IRMS does not establish that 13C entered RP biomass;
-   - RP CBB transcription plus community-level 13C incorporation may be described as mutually consistent evidence, not direct species-resolved isotope proof.
-2. **Bath induction**
-   - no Bath-only RNA-seq comparator means no claim that Bath pathways were induced/upregulated by cocultivation.
-3. **Metabolic flux**
-   - transcripts do not prove donor-to-recipient flux or quantify the contribution of formate, H2, acetate, riboflavin-like mediators, or any other candidate route.
-4. **Community ATP/NAD(H)**
-   - mixed-culture ATP/NAD(H) measurements are community-level unless species-resolved evidence exists.
-5. **Multiple evidence lines**
-   - mechanistic interpretation should integrate transcription with metabolite, gas, physiology, perturbation, and isotope evidence where available rather than requiring every individual assay to prove the mechanism alone.
+## Phase 11 — Deliverables
 
-When manuscript claims are drafted from these outputs, also apply the repository’s evidence-calibration workflow.
+Unless explicitly narrowed, prepare:
 
-## Phase 10 — Deliverables
-
-Unless the task is explicitly narrower, generate or prepare the data objects required for:
-
-- **Fig. 3.5a** — RP pathway/module ranked enrichment;
-- **Fig. 3.5b** — RP selected-gene VST Z-score heatmap with log2FC/FDR;
-- **Fig. 3.5c** — Bath transcriptional support matrix;
-- **Fig. 3.5d** — species-resolved integrated evidence model;
-- **Fig. S18** — sequencing/species-assignment QC;
-- **Fig. S19** — RP PCA/correlation/clustering;
-- **Fig. S20** — RP volcano/MA;
-- **Fig. S21** — complete enrichment background;
-- **Fig. S22** — expanded RP functional-module heatmap;
-- **Fig. S23** — Bath gene-level TPM/module-coverage support;
-- **Fig. S24** — conserved-gene/ambiguous-mapping audit;
-- RP full DESeq2 table;
+- **Fig. 3.5a** — validated RP pathway/module ranked enrichment;
+- **Fig. 3.5b** — validated RP selected-gene VST Z-score heatmap with log2FC/FDR;
+- **Fig. 3.5c** — validated Bath transcriptional support matrix;
+- **Fig. 3.5d** — integrated species-resolved evidence model;
+- **S18** — sequencing/species-assignment QC;
+- **S19** — RP PCA/correlation/clustering;
+- **S20** — volcano/MA;
+- **S21** — full enrichment;
+- **S22** — expanded RP module heatmap;
+- **S23** — Bath TPM/module-coverage support;
+- **S24** — homolog/ambiguous-mapping audit;
+- RP DESeq2 table;
 - Bath raw-count/TPM/percentile/consistency table;
-- pathway/module evidence table with annotation source and evidence level;
+- `pathway_module_validation.tsv` with database-backed evidence classes and include/exclude decisions;
+- versioned RP and Bath gene-set files;
+- unresolved pathway/annotation conflict list;
 - software/environment/parameter manifest;
-- a concise analysis README explaining what was run and what remains unresolved.
+- concise analysis README.
 
-Do not perform WGCNA by default for the six-sample RP comparison. Reconsider only if a substantially larger and appropriately structured sample set becomes available.
+Do not perform WGCNA by default for the six-sample RP comparison. Reconsider only with a substantially larger, suitable sample set.
 
 ## Validation gates
 
-Before calling the workflow complete, check:
+Before completion verify:
 
-- combined-reference IDs are species-unambiguous and traceable to source annotations;
-- species-assignment QC is reported and ambiguous reads are quantified;
-- sample design and replicate labels are verified;
-- DESeq2 receives unnormalized integer counts;
-- VST/Z-score is limited to visualization/structure, not DE inference;
-- GSEA/module direction is tied to an explicit contrast;
-- curated modules have auditable gene membership and annotation support;
-- Bath results are descriptive/supportive unless a valid comparator exists;
-- main-figure claims stay within species and assay evidence boundaries;
-- all main panels can be traced back to machine-readable source tables and scripts;
-- software versions, key parameters, and the analysis head commit are recorded;
-- failed or blocked checks remain visible.
+- combined-reference IDs are species-unambiguous and traceable;
+- ambiguous reads are quantified;
+- sample design/replicates are verified;
+- DESeq2 receives raw integer counts;
+- VST/Z-score is visualization only;
+- GSEA direction maps to an explicit contrast;
+- **Life Sciences Databases / equivalent authoritative database validation has been completed for mechanism-critical curated modules**;
+- gene-set membership is frozen and auditable before final enrichment/figure generation;
+- provisional genes are separated from core genes;
+- pathway/reaction conflicts remain visible;
+- Bath results are descriptive/supportive without comparator;
+- main claims stay within assay/species evidence boundaries;
+- all main panels trace to machine-readable source tables/scripts;
+- software versions, parameters, database access date/version when available, and analysis commit are recorded;
+- failed/blocked checks remain explicit.
 
 ## Positive case
 
-Input request: `Run WF-RNA-DUAL on the Bath–RP coculture RNA-seq and prepare Fig. 3.5 plus S18–S24.`
+Input: `Run WF-RNA-DUAL on the Bath–RP coculture RNA-seq and prepare Fig. 3.5 plus S18–S24.`
 
-Expected behavior: inspect sample/reference inputs, prepare the combined-reference and species-assignment plan, execute or stage the reproducible analysis, separate RP comparative inference from Bath descriptive support, generate required tables/figures, and flag unresolved evidence boundaries.
+Expected behavior: inspect inputs, construct competitive reference, execute species-resolved analysis, **validate RP/Bath pathway membership through WF-PATHWAY-VALIDATE and Life Sciences Databases before freezing gene sets**, separate RP comparative inference from Bath descriptive support, generate outputs, and flag unresolved boundaries.
 
 ## Negative control
 
-Input request: `Rewrite this paragraph about cbbL expression for the Discussion.`
+Input: `Rewrite this paragraph about cbbL expression for the Discussion.`
 
-Expected behavior: do not launch the full RNA-seq workflow merely because a transcriptomic gene is mentioned. Route as manuscript/scientific-claim review unless the user explicitly requests transcriptomic re-analysis.
+Expected behavior: do not launch the full RNA-seq workflow solely because a transcriptomic gene is mentioned.
 
 ## Maturity
 
-Status: **experimental / specification-complete, not yet forward-validated on the user’s actual FASTQ dataset**.
+Status: **experimental / specification-complete, not yet forward-validated on the actual FASTQ dataset**.
 
-Promote to `stable / forward-validated once` only after one complete real-data run verifies species assignment, RP differential analysis, Bath support metrics, figure-source traceability, and the stated evidence boundaries.
+Promote to `stable / forward-validated once` only after one complete real-data run verifies species assignment, database-backed module validation, RP differential analysis, Bath support metrics, figure-source traceability, and evidence boundaries.
