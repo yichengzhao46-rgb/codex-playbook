@@ -24,9 +24,10 @@ For operational use:
 - [`templates/route-receipt.md`](templates/route-receipt.md) — compact auditable routing record; chat-only tasks stay in task context rather than creating unnecessary GitHub logs.
 - [`templates/task-envelope.md`](templates/task-envelope.md) — bounded handoff template for Mixed workflows.
 
-## Research analysis skills
+## Research analysis skills and workflows
 
 - [`skills/literature-guided-analysis/SKILL.md`](skills/literature-guided-analysis/SKILL.md) — **stable / forward-validated once** recommendation-first workflow that uses published literature to interpret user data patterns, generate 3–5 candidate analysis directions, distinguish current-data analysis from new evidence generation, and produce a detailed plan after user selection.
+- [`workflows/bath-rp-species-resolved-transcriptomics.md`](workflows/bath-rp-species-resolved-transcriptomics.md) — **experimental / specification-complete** Bath–RP dual-species bulk RNA-seq workflow covering combined-reference species assignment, RP DESeq2/GSEA, Bath within-species transcriptional support, homolog/ambiguity auditing, and Fig. 3.5 / Figs. S18–S24 outputs. Invoke with `run WF-RNA-DUAL` or `run the Bath–RP transcriptomics workflow`.
 
 ## Repository structure
 
