@@ -33,6 +33,7 @@ Do not store project-specific raw data, manuscript datasets, generated scientifi
 12. Do not invent tool capabilities, files, test results, or external state.
 13. Distinguish clearly between validated practice, experimental practice, and speculation.
 14. Before designing or materially restructuring a reusable PR workflow, skill, router, agent, validation gate, prompt framework, or operating method, apply the [External Workflow Benchmark and Local Adaptation](workflows/external-workflow-benchmark.md) workflow unless the task falls under its explicit non-trigger conditions.
+15. When `WF-RNA-DUAL` is invoked, apply both [`workflows/bath-rp-species-resolved-transcriptomics.md`](workflows/bath-rp-species-resolved-transcriptomics.md) and its mandatory companion [`workflows/wf-rna-dual-figure-gating.md`](workflows/wf-rna-dual-figure-gating.md). Stage gating controls analysis progression; figure gating controls publication-figure progression within each stage. If the current stage contains an unfinished required figure, `continue WF-RNA-DUAL` advances only to the next figure checkpoint, not to the next stage.
 
 ## Documentation rules
 
