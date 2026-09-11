@@ -27,6 +27,7 @@ For operational use:
 ## Research analysis skills and workflows
 
 - [`skills/literature-guided-analysis/SKILL.md`](skills/literature-guided-analysis/SKILL.md) — **stable / forward-validated once** recommendation-first workflow that uses published literature to interpret user data patterns, generate 3–5 candidate analysis directions, distinguish current-data analysis from new evidence generation, and produce a detailed plan after user selection.
+- [`skills/scientific-figure-style-router/SKILL.md`](skills/scientific-figure-style-router/SKILL.md) — **experimental / specification-complete** 2D/2.5D scientific figure Style Router for environmental microbiology and environmental engineering. It routes figure requests by scientific purpose, evidence semantics, layout, style family, and reusable element identity before generation; includes a structured style-sample schema and Bath–RP/Bath–Se/GAC routing examples.
 - [`workflows/bath-rp-species-resolved-transcriptomics.md`](workflows/bath-rp-species-resolved-transcriptomics.md) — **experimental / specification-complete** Bath–RP dual-species bulk RNA-seq workflow covering combined-reference species assignment, RP DESeq2/GSEA, Bath within-species transcriptional support, homolog/ambiguity auditing, and Fig. 3.5 / Figs. S18–S24 outputs. Invoke with `run WF-RNA-DUAL` or `run the Bath–RP transcriptomics workflow`.
 
 ## Repository structure
