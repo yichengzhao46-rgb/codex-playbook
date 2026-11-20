@@ -50,9 +50,13 @@ Automatically load `workflows/pr-auth-academic-writing.md` when any of the follo
 - an AI-detector report or AI-writing concern is supplied;
 - AI-assisted polishing or restructuring is being reviewed;
 - academic voice, human authorship control, or evidence-preserving rewriting is a stated objective;
+- the user invokes `academic-humanizer` or requests an author-voice pass on near-final academic prose;
 - a near-final manuscript/confirmation report is being comprehensively checked for scientific writing quality.
 
 Do not load `PR-AUTH` for a narrow factual question or a purely quantitative recalculation with no prose-review component.
+
+For an explicit `academic-humanizer` or near-final author-voice request, use the
+[academic-humanizer workflow](academic-humanizer.md) within `PR-AUTH`.
 
 ### Data escalation from research writing
 
