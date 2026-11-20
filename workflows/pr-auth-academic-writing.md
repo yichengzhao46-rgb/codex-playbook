@@ -35,6 +35,12 @@ or project-specific rule conflicts with a generic style preference, follow the
 more specific authoritative instruction unless it would violate scientific
 accuracy or research integrity.
 
+## Author-voice final pass
+
+Use [academic-humanizer](academic-humanizer.md) for explicit invocations and near-final
+author-voice calibration. Run the meaning lock and evidence audit before rewriting and use
+the meaning-diff validation below to check the result.
+
 ## Stage 1 — Meaning lock
 
 Before rewriting, identify and lock the following where present:
