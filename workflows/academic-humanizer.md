@@ -8,8 +8,8 @@ diagnosis in the requested format. For broader research review, use the standard
 ## Inputs
 
 - The passage to review or revise and, when provided, its section and target venue.
-- An optional sample the author identifies as representative of their own writing. Prefer an excerpt
-  from the same section type when available.
+- Optional writing samples as pasted text or attached PDFs. Use passages the author wrote or
+  published examples they designate as style references.
 - The figures, tables, citations, and other supporting material the author has supplied or identified.
 
 ## Editing pass
@@ -20,10 +20,12 @@ diagnosis in the requested format. For broader research review, use the standard
    unresolved claim or citation question for the author. Apply [PR-CAL](pr-cal-evidence-calibration.md)
    when adjudicating a scientific claim is part of the task.
 
-2. **Read for author voice.** Read the author sample before rewriting. Identify the habits most
-   relevant to this passage, such as sentence rhythm, paragraph openings, transitions, and placement
-   of qualifiers. Apply them where they fit the section and any applicable venue requirements.
-   Draw scientific details solely from the target text and its supporting material. When a
+2. **Read for style.** Read the relevant sections of the supplied samples before rewriting. Prefer
+   passages that match the target's article type and section. Use author-written samples to
+   calibrate personal voice and author-selected publications to calibrate the requested style.
+   Identify useful habits such as sentence rhythm, paragraph openings, transitions, and placement of
+   qualifiers. Apply them in fresh wording that fits the section and any applicable venue
+   requirements. Draw scientific details solely from the target text and its supporting material. When a
    representative sample is unavailable, use restrained academic English and report that the style
    pass used the target section as its guide.
 
@@ -49,9 +51,9 @@ markup or tracked-edit convention if one was specified.
 
 A direct invocation in a workspace with this playbook available is:
 
-> Run academic-humanizer on my Discussion. Use the attached excerpt as my writing sample and
-> the supplied figure as the evidence reference. Show the revision and briefly explain the
-> consequential wording changes.
+> Run academic-humanizer on my Discussion. Use the relevant sections of the attached PDFs as
+> style references and the supplied figure as evidence. Show the revision and briefly explain
+> the consequential wording changes.
 
 ## Validation examples
 
@@ -60,6 +62,10 @@ A direct invocation in a workspace with this playbook available is:
   isotope result attributed to the whole coculture, retain its figure reference, and keep
   diffusible exchange framed as a possible explanation. The author sample guides sentence
   structure.
+- **Published PDF references.** For a research manuscript Discussion with one research article
+  and two review samples, use the research article's relevant sections to see how the authors
+  connect results, controls, and interpretation. Draw on review sections to frame context or
+  synthesize evidence where relevant.
 - **Evidence question.** A bulk isotope measurement is cited for species-specific fixation. Flag
   the attribution for review and continue with safe wording changes elsewhere in the passage.
 - **Routing control.** A request to recalculate isotope enrichment from a spreadsheet follows
